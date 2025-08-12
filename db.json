@@ -1,0 +1,64 @@
+{
+  "users": [
+    {
+      "name": "Admin",
+      "email": "admin@admin.com",
+      "password": "admin",
+      "active": true,
+      "id": "bbe6"
+    },
+    {
+      "id": "8134",
+      "name": "felipe",
+      "email": "felipe@gmail.com",
+      "password": "1234",
+      "active": true,
+      "isAdmin": false
+    }
+  ],
+  "catalog": [
+    {
+      "id": "1",
+      "name": "Salto",
+      "price": 199.9,
+      "image": "salto.webp",
+      "stockBySize": {
+        "34": 5,
+        "35": 3,
+        "36": 8,
+        "37": 6,
+        "38": 2,
+        "39": 1
+      }
+    },
+    {
+      "id": "2",
+      "name": "Salto",
+      "price": 149.9,
+      "image": "salto.jpg.jpg",
+      "stockBySize": {
+        "34": 2,
+        "35": 4,
+        "36": 7,
+        "37": 3,
+        "38": 5,
+        "39": 6
+      }
+    },
+    {
+      "id": "3",
+      "name": "Sandália",
+      "price": 179.9,
+      "image": "san.webp",
+      "stockBySize": {
+        "34": 1,
+        "35": 1,
+        "36": 2,
+        "37": 2,
+        "38": 0,
+        "39": 0
+      }
+    }
+  ],
+  "purchaseHistory": []
+}

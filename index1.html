@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Passos Certos 👟</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="logo">Passos Certos 👟</div>
+    <nav class="nav">
+      <button id="logoutBtn">Sair</button>
+      <button id="viewCartBtn">🛒 Carrinho (<span id="cartCount">0</span>)</button>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <!-- Login -->
+    <section id="login-section" class="auth-section">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="E-mail" required />
+        <input type="password" id="loginPassword" placeholder="Senha" required />
+        <button type="submit">Entrar</button>
+        <p>Não tem conta? <a href="#" id="goToRegister">Cadastre-se</a></p>
+      </form>
+    </section>
+
+    <!-- Cadastro -->
+    <section id="register-section" class="auth-section" style="display:none;">
+      <h2>Cadastro</h2>
+      <form id="registerForm">
+        <input type="text" id="regName" placeholder="Nome" required />
+        <input type="email" id="regEmail" placeholder="E-mail" required />
+        <input type="password" id="regPassword" placeholder="Senha" required />
+        <input type="password" id="regPasswordConfirm" placeholder="Confirmar Senha" required />
+        <button type="submit">Registrar</button>
+        <p>Já tem conta? <a href="#" id="goToLogin">Fazer login</a></p>
+      </form>
+    </section>
+
+    <!-- Dashboard / Catálogo -->
+    <section id="dashboard-section" style="display:none;">
+      <h2>Catálogo de Sapatos</h2>
+      <div id="catalog" class="catalog"></div>
+    </section>
+
+    <!-- Carrinho Modal -->
+    <div id="cartModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span id="closeCartBtn" class="close">&times;</span>
+        <h3>Seu Carrinho</h3>
+        <ul id="cartItems"></ul>
+        <p>Total: R$ <span id="cartTotal">0.00</span></p>
+        <button id="checkoutBtn">Finalizar Compra</button>
+      </div>
+    </div>
+
+    <!-- Pagamento -->
+    <section id="payment-section" style="display:none;">
+      <h2>Pagamento</h2>
+      <p>Obrigado pela compra, <span id="customerName"></span>!</p>
+      <p>Total: R$ <span id="paymentTotal"></span></p>
+      <select id="paymentMethod">
+        <option value="credito">Cartão de Crédito</option>
+        <option value="debito">Cartão de Débito</option>
+        <option value="pix">PIX</option>
+      </select>
+
+      <div id="cardDetails">
+        <input type="text" id="cardNumber" placeholder="Número do cartão" />
+        <input type="text" id="cardName" placeholder="Nome no cartão" />
+        <input type="text" id="cardExpiry" placeholder="Validade (MM/AA)" />
+        <input type="text" id="cardCVV" placeholder="CVV" />
+      </div>
+
+      <div id="pixDetails" style="display: none;">
+        <p>Chave PIX: <strong>62991953918</strong></p>
+      </div>
+
+      <button id="confirmPaymentBtn">Confirmar Pagamento</button>
+      <button id="backToShopBtn">Voltar à loja</button>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Passos Certos. Todos os direitos reservados.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
