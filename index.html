@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Passos Certos - Loja</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- LOJA / CATALOGO (visível por padrão) -->
+  <header class="site-header">
+    <h1>Passos Certos 👟</h1>
+    <div class="header-actions">
+      <button id="loginBtn">Entrar / Cadastrar</button>
+      <button id="logoutBtn" style="display:none;">Sair</button>
+      <button id="goToAdminBtn" style="display:none;">Painel Admin</button>
+      <button id="viewCartBtn">Carrinho (<span id="cartCount">0</span>)</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="dashboard-section">
+      <div id="catalog" class="catalog"></div>
+    </section>
+
+    <!-- LOGIN -->
+    <section id="login-section" style="display:none;" class="auth-section">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required />
+        <label for="loginPassword">Senha</label>
+        <input type="password" id="loginPassword" required />
+        <button class="btn-primary" type="submit">Entrar</button>
+      </form>
+      <div class="switch-auth">
+        Não tem conta?
+        <button id="goToRegister" class="link-btn">Cadastrar-se</button>
+      </div>
+    </section>
+
+    <!-- REGISTRO -->
+    <section id="register-section" style="display:none;" class="auth-section">
+      <h2>Cadastro</h2>
+      <form id="registerForm">
+        <label for="regName">Nome</label>
+        <input type="text" id="regName" required />
+        <label for="regEmail">Email</label>
+        <input type="email" id="regEmail" required />
+        <label for="regPassword">Senha</label>
+        <input type="password" id="regPassword" required />
+        <label for="regPasswordConfirm">Confirme a senha</label>
+        <input type="password" id="regPasswordConfirm" required />
+        <button class="btn-primary" type="submit">Cadastrar</button>
+      </form>
+      <div class="switch-auth">
+        Já tem conta?
+        <button id="goToLogin" class="link-btn">Entrar</button>
+      </div>
+    </section>
+
+    <!-- PAINEL ADMIN -->
+    <section id="admin-section" style="display:none;">
+      <div class="admin-top">
+        <button id="goToShopBtn">Ir para Loja</button>
+        <button id="adminLogoutBtn">Sair</button>
+      </div>
+
+      <h2>Painel Administrativo</h2>
+
+      <h3>Histórico de Compras</h3>
+      <table id="historyTable">
+        <thead>
+          <tr><th>Usuário</th><th>Itens</th><th>Total</th><th>Data</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <h3>Informações de Usuário</h3>
+      <table id="userTable">
+        <thead>
+          <tr><th>Nome</th><th>Email</th><th>Status</th><th>Ações</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <h3>Estoque de Produtos</h3>
+      <div class="table-wrap">
+        <table id="stockTable">
+          <thead>
+            <tr>
+              <th>Produto</th><th>Imagem</th>
+              <th>34</th><th>35</th><th>36</th><th>37</th><th>38</th><th>39</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- MODAL CARRINHO -->
+    <div id="cartModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span id="closeCartBtn" class="close">&times;</span>
+        <h3>Carrinho</h3>
+        <ul id="cartItems"></ul>
+        <p><strong>Total: R$ <span id="cartTotal">0.00</span></strong></p>
+        <div class="cart-actions">
+          <button id="checkoutBtn" class="btn-primary">Finalizar Compra</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO DE PAGAMENTO -->
+    <section id="payment-section" style="display:none;" class="auth-section">
+      <h2>Pagamento</h2>
+      <p>Cliente: <span id="customerName"></span></p>
+      <p>Total a pagar: R$ <span id="paymentTotal"></span></p>
+
+      <label for="paymentMethod">Método de pagamento</label>
+      <select id="paymentMethod" required>
+        <option value="">Selecione</option>
+        <option value="pix">PIX</option>
+        <option value="card">Cartão de Crédito</option>
+      </select>
+
+      <div id="pixDetails" style="display:none;">
+        <p>PIX: 62 992756442</p>
+      </div>
+
+      <div id="cardDetails" style="display:none;">
+        <label for="cardNumber">Número do cartão</label>
+        <input type="text" id="cardNumber" />
+        <label for="cardExpiry">Validade</label>
+        <input type="text" id="cardExpiry" />
+        <label for="cardCVC">CVC</label>
+        <input type="text" id="cardCVC" />
+      </div>
+
+      <button id="confirmPaymentBtn" class="btn-primary">Confirmar Pagamento</button>
+      <button id="backToShopBtn" class="btn-secondary">Voltar à Loja</button>
+    </section>
+
+    <!-- Modal Seleção de Tamanho -->
+    <div id="sizeModal" class="size-modal" style="display:none;">
+      <div class="size-modal-content">
+        <h3>Selecione o tamanho</h3>
+        <select id="sizeSelect"></select>
+        <div style="margin-top:12px">
+          <button id="confirmSizeBtn" class="btn-primary">Adicionar ao Carrinho</button>
+          <button id="cancelSizeBtn" class="btn-secondary">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
