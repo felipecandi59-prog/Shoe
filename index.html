@@ -3,110 +3,136 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Passos Certos - Loja</title>
+  <meta name="description" content="Passos Certos - Sua loja de calçados online. Encontre os melhores calçados com os melhores preços." />
+  <title>Passos Certos - Loja de Calçados</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <!-- LOJA / CATALOGO (visível por padrão) -->
   <header class="site-header">
-    <h1>Passos Certos 👟</h1>
-    <p> teste do github</p>
-    <div class="header-actions">
-      <button id="loginBtn">Entrar / Cadastrar</button>
-      <button id="logoutBtn" style="display:none;">Sair</button>
-      <button id="goToAdminBtn" style="display:none;">Painel Admin</button>
-      <button id="viewCartBtn">Carrinho (<span id="cartCount">0</span>)</button>
+    <div class="header-container">
+      <h1>Passos Certos 👟</h1>
+      <p class="tagline">teste do github</p>
+      <div class="header-actions">
+        <button id="loginBtn" aria-label="Fazer login">Entrar / Cadastrar</button>
+        <button id="logoutBtn" style="display:none;" aria-label="Sair da conta">Sair</button>
+        <button id="goToAdminBtn" style="display:none;" aria-label="Painel administrativo">Painel Admin</button>
+        <button id="viewCartBtn" aria-label="Ver carrinho de compras">Carrinho (<span id="cartCount">0</span>)</button>
+      </div>
     </div>
   </header>
 
-  <main>
-    <section id="dashboard-section">
+  <main id="main-content">
+    <section id="dashboard-section" aria-labelledby="catalog-heading">
+      <h2 id="catalog-heading" class="visually-hidden">Catálogo de produtos</h2>
       <div id="catalog" class="catalog"></div>
     </section>
 
     <!-- LOGIN -->
-    <section id="login-section" style="display:none;" class="auth-section">
-      <h2>Login</h2>
+    <section id="login-section" style="display:none;" class="auth-section" aria-labelledby="login-heading">
+      <h2 id="login-heading">Login</h2>
       <form id="loginForm">
-        <label for="loginEmail">Email</label>
-        <input type="email" id="loginEmail" required />
-        <label for="loginPassword">Senha</label>
-        <input type="password" id="loginPassword" required />
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" required aria-required="true" />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Senha</label>
+          <input type="password" id="loginPassword" required aria-required="true" />
+        </div>
         <button class="btn-primary" type="submit">Entrar</button>
       </form>
       <div class="switch-auth">
-        Não tem conta?
+        <p>Não tem conta?</p>
         <button id="goToRegister" class="link-btn">Cadastrar-se</button>
       </div>
     </section>
 
     <!-- REGISTRO -->
-    <section id="register-section" style="display:none;" class="auth-section">
-      <h2>Cadastro</h2>
+    <section id="register-section" style="display:none;" class="auth-section" aria-labelledby="register-heading">
+      <h2 id="register-heading">Cadastro</h2>
       <form id="registerForm">
-        <label for="regName">Nome</label>
-        <input type="text" id="regName" required />
-        <label for="regEmail">Email</label>
-        <input type="email" id="regEmail" required />
-        <label for="regPassword">Senha</label>
-        <input type="password" id="regPassword" required />
-        <label for="regPasswordConfirm">Confirme a senha</label>
-        <input type="password" id="regPasswordConfirm" required />
+        <div class="form-group">
+          <label for="regName">Nome</label>
+          <input type="text" id="regName" required aria-required="true" />
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Email</label>
+          <input type="email" id="regEmail" required aria-required="true" />
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Senha</label>
+          <input type="password" id="regPassword" required aria-required="true" />
+        </div>
+        <div class="form-group">
+          <label for="regPasswordConfirm">Confirme a senha</label>
+          <input type="password" id="regPasswordConfirm" required aria-required="true" />
+        </div>
         <button class="btn-primary" type="submit">Cadastrar</button>
       </form>
       <div class="switch-auth">
-        Já tem conta?
+        <p>Já tem conta?</p>
         <button id="goToLogin" class="link-btn">Entrar</button>
       </div>
     </section>
 
     <!-- PAINEL ADMIN -->
-    <section id="admin-section" style="display:none;">
+    <section id="admin-section" style="display:none;" aria-labelledby="admin-heading">
       <div class="admin-top">
         <button id="goToShopBtn">Ir para Loja</button>
         <button id="adminLogoutBtn">Sair</button>
       </div>
 
-      <h2>Painel Administrativo</h2>
+      <h2 id="admin-heading">Painel Administrativo</h2>
 
-      <h3>Histórico de Compras</h3>
-      <table id="historyTable">
-        <thead>
-          <tr><th>Usuário</th><th>Itens</th><th>Total</th><th>Data</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <div class="admin-subsection">
+        <h3>Histórico de Compras</h3>
+        <div class="table-container">
+          <table id="historyTable">
+            <thead>
+              <tr><th scope="col">Usuário</th><th scope="col">Itens</th><th scope="col">Total</th><th scope="col">Data</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
 
-      <h3>Informações de Usuário</h3>
-      <table id="userTable">
-        <thead>
-          <tr><th>Nome</th><th>Email</th><th>Status</th><th>Ações</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <div class="admin-subsection">
+        <h3>Informações de Usuário</h3>
+        <div class="table-container">
+          <table id="userTable">
+            <thead>
+              <tr><th scope="col">Nome</th><th scope="col">Email</th><th scope="col">Status</th><th scope="col">Ações</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
 
-      <h3>Estoque de Produtos</h3>
-      <div class="table-wrap">
-        <table id="stockTable">
-          <thead>
-            <tr>
-              <th>Produto</th><th>Imagem</th>
-              <th>34</th><th>35</th><th>36</th><th>37</th><th>38</th><th>39</th>
-              <th>Ação</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+      <div class="admin-subsection">
+        <h3>Estoque de Produtos</h3>
+        <div class="table-container">
+          <table id="stockTable">
+            <thead>
+              <tr>
+                <th scope="col">Produto</th><th scope="col">Imagem</th>
+                <th scope="col">34</th><th scope="col">35</th><th scope="col">36</th><th scope="col">37</th>
+                <th scope="col">38</th><th scope="col">39</th><th scope="col">Ação</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </section>
 
     <!-- MODAL CARRINHO -->
-    <div id="cartModal" class="modal" style="display:none;">
+    <div id="cartModal" class="modal" style="display:none;" role="dialog" aria-labelledby="cartModalTitle" aria-modal="true">
       <div class="modal-content">
-        <span id="closeCartBtn" class="close">&times;</span>
-        <h3>Carrinho</h3>
-        <ul id="cartItems"></ul>
+        <span id="closeCartBtn" class="close" aria-label="Fechar modal">&times;</span>
+        <h3 id="cartModalTitle">Carrinho</h3>
+        <ul id="cartItems" aria-label="Itens do carrinho"></ul>
         <p><strong>Total: R$ <span id="cartTotal">0.00</span></strong></p>
         <div class="cart-actions">
           <button id="checkoutBtn" class="btn-primary">Finalizar Compra</button>
@@ -115,41 +141,51 @@
     </div>
 
     <!-- SEÇÃO DE PAGAMENTO -->
-    <section id="payment-section" style="display:none;" class="auth-section">
-      <h2>Pagamento</h2>
+    <section id="payment-section" style="display:none;" class="auth-section" aria-labelledby="payment-heading">
+      <h2 id="payment-heading">Pagamento</h2>
       <p>Cliente: <span id="customerName"></span></p>
       <p>Total a pagar: R$ <span id="paymentTotal"></span></p>
 
-      <label for="paymentMethod">Método de pagamento</label>
-      <select id="paymentMethod" required>
-        <option value="">Selecione</option>
-        <option value="pix">PIX</option>
-        <option value="card">Cartão de Crédito</option>
-      </select>
+      <form id="paymentForm">
+        <div class="form-group">
+          <label for="paymentMethod">Método de pagamento</label>
+          <select id="paymentMethod" required aria-required="true">
+            <option value="">Selecione</option>
+            <option value="pix">PIX</option>
+            <option value="card">Cartão de Crédito</option>
+          </select>
+        </div>
 
-      <div id="pixDetails" style="display:none;">
-        <p>PIX: 62 992756442</p>
-      </div>
+        <div id="pixDetails" style="display:none;">
+          <p>PIX: 62 992756442</p>
+        </div>
 
-      <div id="cardDetails" style="display:none;">
-        <label for="cardNumber">Número do cartão</label>
-        <input type="text" id="cardNumber" />
-        <label for="cardExpiry">Validade</label>
-        <input type="text" id="cardExpiry" />
-        <label for="cardCVC">CVC</label>
-        <input type="text" id="cardCVC" />
-      </div>
+        <div id="cardDetails" style="display:none;">
+          <div class="form-group">
+            <label for="cardNumber">Número do cartão</label>
+            <input type="text" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX" />
+          </div>
+          <div class="form-group">
+            <label for="cardExpiry">Validade</label>
+            <input type="text" id="cardExpiry" placeholder="MM/AA" />
+          </div>
+          <div class="form-group">
+            <label for="cardCVC">CVC</label>
+            <input type="text" id="cardCVC" placeholder="XXX" />
+          </div>
+        </div>
 
-      <button id="confirmPaymentBtn" class="btn-primary">Confirmar Pagamento</button>
-      <button id="backToShopBtn" class="btn-secondary">Voltar à Loja</button>
+        <button id="confirmPaymentBtn" class="btn-primary">Confirmar Pagamento</button>
+        <button id="backToShopBtn" class="btn-secondary">Voltar à Loja</button>
+      </form>
     </section>
 
     <!-- Modal Seleção de Tamanho -->
-    <div id="sizeModal" class="size-modal" style="display:none;">
+    <div id="sizeModal" class="size-modal" style="display:none;" role="dialog" aria-labelledby="sizeModalTitle" aria-modal="true">
       <div class="size-modal-content">
-        <h3>Selecione o tamanho</h3>
+        <h3 id="sizeModalTitle">Selecione o tamanho</h3>
         <select id="sizeSelect"></select>
-        <div style="margin-top:12px">
+        <div class="size-modal-actions">
           <button id="confirmSizeBtn" class="btn-primary">Adicionar ao Carrinho</button>
           <button id="cancelSizeBtn" class="btn-secondary">Cancelar</button>
         </div>
@@ -157,6 +193,10 @@
     </div>
 
   </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Passos Certos - Gato-Preto</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
