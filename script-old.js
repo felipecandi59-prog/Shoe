@@ -1,24 +1,46 @@
-// URL do JSON no GitHub (somente leitura)
+// URL base do json-server
+//const API = "http://localhost:3000";
 const API = "https://raw.githubusercontent.com/felipecandi59-prog/Shoe/main/db.json";
 
-// Estado da aplicação
+
+
+async function fetchData() {
+  try {
+    const response = await fetch(API);
+    if (!response.ok) throw new Error("Erro ao carregar JSON do GitHub");
+    const data = await response.json();
+    state.users = data.users;
+    state.products = data.products;
+    state.purchases = data.purchases;
+    renderCatalog();
+    checkLoggedUser();
+  } catch (error) {
+    console.error("Erro:", error);
+    alert("Não foi possível carregar os dados da loja!");
+  }
+}
+
+// estado da aplicação
 const state = {
     users: [],
     catalog: [],
-    purchases: [],
     currentUser: null,
     cart: [],
     selectedProduct: null,
-    selectedSize: null
+    selectedSize: null,
+    purchases: []
 };
 
-// Cache de elementos DOM
+// cache de elementos DOM
 const elements = {
+    // Seções
     loginSection: document.getElementById('login-section'),
     registerSection: document.getElementById('register-section'),
     dashboardSection: document.getElementById('dashboard-section'),
     adminSection: document.getElementById('admin-section'),
     paymentSection: document.getElementById('payment-section'),
+    
+    // Elementos de catálogo e carrinho
     catalogDiv: document.getElementById('catalog'),
     cartCount: document.getElementById('cartCount'),
     cartModal: document.getElementById('cartModal'),
@@ -26,9 +48,13 @@ const elements = {
     cartTotal: document.getElementById('cartTotal'),
     customerName: document.getElementById('customerName'),
     paymentTotal: document.getElementById('paymentTotal'),
+    
+    // Formulários
     registerForm: document.getElementById('registerForm'),
     loginForm: document.getElementById('loginForm'),
     paymentForm: document.getElementById('paymentForm'),
+    
+    // Botões e controles
     goToRegister: document.getElementById('goToRegister'),
     goToLogin: document.getElementById('goToLogin'),
     viewCartBtn: document.getElementById('viewCartBtn'),
@@ -42,112 +68,134 @@ const elements = {
     loginBtn: document.getElementById('loginBtn'),
     goToAdminBtn: document.getElementById('goToAdminBtn'),
     goToShopBtn: document.getElementById('goToShopBtn'),
+    
+    // Modal de tamanhos
     sizeModal: document.getElementById('sizeModal'),
     sizeSelect: document.getElementById('sizeSelect'),
     confirmSizeBtn: document.getElementById('confirmSizeBtn'),
     cancelSizeBtn: document.getElementById('cancelSizeBtn'),
+    
+    // Detalhes de pagamento
     pixDetails: document.getElementById('pixDetails'),
     cardDetails: document.getElementById('cardDetails'),
+    
+    // Tabelas administrativas
     userTable: document.getElementById('userTable'),
     historyTable: document.getElementById('historyTable'),
     stockTable: document.getElementById('stockTable')
 };
 
-// =======================
-// 1️⃣ Carregar dados do GitHub
-// =======================
-async function fetchData() {
+// --- Funções de API ---
+async function apiRequest(endpoint, options = {}) {
     try {
-        const response = await fetch(API);
-        if (!response.ok) throw new Error("Erro ao carregar JSON do GitHub");
-        const data = await response.json();
-        state.users = data.users;
-        state.catalog = data.products;
-        state.purchases = data.purchases;
-        setupEventListeners();
-        showCatalogOnly();
+        const response = await fetch(`${API}${endpoint}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            },
+            ...options
+        });
         
-        // Verificar se há um usuário logado previamente
-        const savedUser = localStorage.getItem('currentUser');
-        if (savedUser) {
-            const userData = JSON.parse(savedUser);
-            const user = state.users.find(u => u.email === userData.email);
-            
-            if (user && user.active) {
-                state.currentUser = user;
-                updateUIForUser();
-                renderCatalog();
-                showSuccess(`Bem-vindo(a) de volta, ${user.name}!`);
-            }
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
         }
+        
+        return await response.json();
     } catch (error) {
-        console.error("Erro:", error);
-        showError("Não foi possível carregar os dados da loja!");
+        console.error('Erro na requisição:', error);
+        showError('Falha na comunicação com o servidor. Verifique se o json-server está rodando.');
+        throw error;
     }
 }
 
-// =======================
-// 2️⃣ Login e registro (somente memória)
-// =======================
-function handleLogin(e) {
-    e.preventDefault();
-    const email = elements.loginForm.loginEmail.value.trim();
-    const password = elements.loginForm.loginPassword.value.trim();
-
-    const user = state.users.find(u => u.email === email && u.password === password);
-    if (!user) return showError("Email ou senha incorretos.");
-    if (!user.active) return showError("Usuário inativo.");
-
-    state.currentUser = user;
-    
-    // Salvar no localStorage
-    localStorage.setItem('currentUser', JSON.stringify({
-        email: user.email,
-        name: user.name,
-        isAdmin: user.isAdmin
-    }));
-    
-    showSuccess(`Bem-vindo(a), ${user.name}!`);
-    resetForms();
-    showCatalogOnly();
+async function fetchAll() {
+    try {
+        const [products, users, purchases] = await Promise.all([
+            apiRequest('/products'),
+            apiRequest('/users'),
+            apiRequest('/purchases')
+        ]);
+        
+        state.catalog = products;
+        state.users = users;
+        state.purchases = purchases;
+    } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+    }
 }
 
-function handleRegistration(e) {
-    e.preventDefault();
-    const name = elements.registerForm.regName.value.trim();
-    const email = elements.registerForm.regEmail.value.trim();
-    const password = elements.registerForm.regPassword.value;
-    const confirmPassword = elements.registerForm.regPasswordConfirm.value;
-
-    if (!name || !email || !password || !confirmPassword) return showError("Preencha todos os campos.");
-    if (password !== confirmPassword) return showError("Senhas não coincidem.");
-    if (password.length < 6) return showError("A senha deve ter pelo menos 6 caracteres.");
-    if (state.users.find(u => u.email === email)) return showError("Email já cadastrado.");
-
-    const newUser = { 
-        id: Math.max(...state.users.map(u => u.id), 0) + 1,
-        name, 
-        email, 
-        password, 
-        active: true, 
-        isAdmin: false 
-    };
-    
-    state.users.push(newUser);
-    showSuccess("Cadastro realizado! (Somente temporário)");
-    resetForms();
-    showSection(elements.loginSection);
+async function patchProductStock(id, stockBySize) {
+    return apiRequest(`/products/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ stockBySize })
+    });
 }
 
-// =======================
-// 3️⃣ UI e navegação
-// =======================
+async function patchUser(id, payload) {
+    return apiRequest(`/users/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(payload)
+    });
+}
+
+async function postPurchase(purchase) {
+    return apiRequest('/purchases', {
+        method: 'POST',
+        body: JSON.stringify(purchase)
+    });
+}
+
+async function postUser(user) {
+    return apiRequest('/users', {
+        method: 'POST',
+        body: JSON.stringify(user)
+    });
+}
+
+// --- Utilitários ---
+function showError(message) {
+    alert(`Erro: ${message}`);
+}
+
+function showSuccess(message) {
+    alert(`Sucesso: ${message}`);
+}
+
+function formatCurrency(value) {
+    return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    }).format(value);
+}
+
+function resetForms() {
+    if (elements.loginForm) elements.loginForm.reset();
+    if (elements.registerForm) elements.registerForm.reset();
+    if (elements.paymentForm) elements.paymentForm.reset();
+    if (elements.paymentMethod) elements.paymentMethod.value = '';
+    if (elements.pixDetails) elements.pixDetails.style.display = 'none';
+    if (elements.cardDetails) elements.cardDetails.style.display = 'none';
+}
+
+// --- Gerenciamento de UI ---
 function showSection(section) {
-    [elements.loginSection, elements.registerSection, elements.dashboardSection, elements.adminSection, elements.paymentSection].forEach(sec => {
+    // Oculta todas as seções
+    const sections = [
+        elements.loginSection,
+        elements.registerSection,
+        elements.dashboardSection,
+        elements.adminSection,
+        elements.paymentSection
+    ];
+    
+    sections.forEach(sec => {
         if (sec) sec.style.display = 'none';
     });
     
+    // Mostra a seção solicitada
     if (section) section.style.display = 'block';
+    
+    // Atualiza a UI baseada no usuário atual
     updateUIForUser();
 }
 
@@ -182,9 +230,7 @@ function showAdminPanel() {
     renderAdminTables();
 }
 
-// =======================
-// 4️⃣ Catálogo e carrinho
-// =======================
+// --- Renderização do catálogo ---
 function renderCatalog() {
     if (!elements.catalogDiv) return;
     
@@ -227,6 +273,7 @@ function renderCatalog() {
     });
 }
 
+// --- Modal de seleção de tamanho ---
 function openSizeModal(product) {
     state.selectedProduct = product;
     if (!elements.sizeSelect) return;
@@ -253,7 +300,7 @@ function openSizeModal(product) {
     if (elements.sizeModal) elements.sizeModal.style.display = 'flex';
 }
 
-function addToCartWithSize(product, size) {
+async function addToCartWithSize(product, size) {
     if (!state.currentUser) {
         showError('Você precisa estar logado para adicionar itens ao carrinho.');
         return;
@@ -279,16 +326,24 @@ function addToCartWithSize(product, size) {
         });
     }
     
-    // Atualiza o estoque (apenas localmente)
+    // Atualiza o estoque
     const productIndex = state.catalog.findIndex(p => p.id === product.id);
     if (productIndex !== -1) {
         state.catalog[productIndex].stockBySize[size]--;
-        updateCartUI();
-        if (elements.sizeModal) elements.sizeModal.style.display = 'none';
-        showSuccess(`${product.name} - tamanho ${size} adicionado ao carrinho!`);
+        
+        try {
+            await patchProductStock(product.id, state.catalog[productIndex].stockBySize);
+            updateCartUI();
+            if (elements.sizeModal) elements.sizeModal.style.display = 'none';
+            showSuccess(`${product.name} - tamanho ${size} adicionado ao carrinho!`);
+        } catch (error) {
+            showError('Falha ao atualizar o estoque. Tente novamente.');
+            console.error(error);
+        }
     }
 }
 
+// --- Gerenciamento do carrinho ---
 function renderCart() {
     if (!elements.cartItems) return;
     
@@ -334,10 +389,11 @@ function removeFromCart(index) {
     if (index >= 0 && index < state.cart.length) {
         const item = state.cart[index];
         
-        // Restaura o estoque (apenas localmente)
+        // Restaura o estoque
         const product = state.catalog.find(p => p.id === item.product.id);
         if (product) {
             product.stockBySize[item.size] += item.quantity;
+            patchProductStock(product.id, product.stockBySize);
         }
         
         // Remove do carrinho
@@ -364,38 +420,28 @@ function calculateCartTotal() {
     }, 0);
 }
 
-// =======================
-// 5️⃣ Pagamento (simulado)
-// =======================
-function processPayment() {
-    if (!elements.paymentMethod || !elements.paymentMethod.value) {
-        showError('Selecione um método de pagamento.');
-        return;
+// --- Função para salvar estoque ---
+async function saveProductStock(productId) {
+    const inputs = document.querySelectorAll(`.stock-input[data-product-id="${productId}"]`);
+    const stockBySize = {};
+
+    inputs.forEach(input => {
+        const size = input.dataset.size;
+        stockBySize[size] = parseInt(input.value) || 0;
+    });
+
+    try {
+        await patchProductStock(productId, stockBySize);
+        await fetchAll(); // Recarrega os dados do servidor
+        renderStockTable(); // Atualiza a tabela
+        showSuccess('Estoque atualizado com sucesso!');
+    } catch (error) {
+        showError('Erro ao salvar o estoque.');
+        console.error(error);
     }
-    
-    const purchase = {
-        userEmail: state.currentUser.email,
-        userName: state.currentUser.name,
-        items: state.cart.map(item => ({
-            name: item.product.name,
-            price: item.product.price,
-            quantity: item.quantity,
-            size: item.size
-        })),
-        total: calculateCartTotal(),
-        date: new Date().toLocaleString('pt-BR'),
-        paymentMethod: elements.paymentMethod.value
-    };
-    
-    state.purchases.push(purchase);
-    showSuccess('Compra realizada com sucesso! (Dados salvos apenas localmente)');
-    clearCart();
-    showCatalogOnly();
 }
 
-// =======================
-// 6️⃣ Admin (somente leitura)
-// =======================
+// --- Painel administrativo ---
 function renderAdminTables() {
     renderUserTable();
     renderHistoryTable();
@@ -544,37 +590,143 @@ async function restockProduct(productId) {
     }
 }
 
-
-// =======================
-// 7️⃣ Utilitários
-// =======================
-function showError(message) {
-    alert(`Erro: ${message}`);
+// --- Processamento de pagamento ---
+async function processPayment() {
+    if (!elements.paymentMethod || !elements.paymentMethod.value) {
+        showError('Selecione um método de pagamento.');
+        return;
+    }
+    
+    const purchase = {
+        userEmail: state.currentUser.email,
+        userName: state.currentUser.name,
+        items: state.cart.map(item => ({
+            name: item.product.name,
+            price: item.product.price,
+            quantity: item.quantity,
+            size: item.size
+        })),
+        total: calculateCartTotal(),
+        date: new Date().toLocaleString('pt-BR'),
+        paymentMethod: elements.paymentMethod.value
+    };
+    
+    try {
+        await postPurchase(purchase);
+        state.purchases.push(purchase);
+        showSuccess('Compra realizada com sucesso!');
+        clearCart();
+        showCatalogOnly();
+    } catch (error) {
+        showError('Falha ao processar o pagamento. Tente novamente.');
+        console.error(error);
+    }
 }
 
-function showSuccess(message) {
-    alert(`Sucesso: ${message}`);
+// --- Autenticação de usuário ---
+async function handleLogin(e) {
+    e.preventDefault();
+    
+    const email = elements.loginForm.loginEmail.value.trim();
+    const password = elements.loginForm.loginPassword.value.trim();
+    
+    if (!email || !password) {
+        showError('Por favor, preencha todos os campos.');
+        return;
+    }
+    
+    try {
+        await fetchAll();
+        
+        const user = state.users.find(u => u.email === email);
+        
+        if (!user) {
+            showError('Email não encontrado. Verifique ou crie uma nova conta.');
+            return;
+        }
+        
+        if (user.password !== password) {
+            showError('Senha incorreta. Tente novamente.');
+            return;
+        }
+        
+        if (!user.active) {
+            showError('Sua conta está desativada. Entre em contato conosco.');
+            return;
+        }
+        
+        state.currentUser = user;
+        
+        localStorage.setItem('currentUser', JSON.stringify({
+            email: user.email,
+            name: user.name,
+            isAdmin: user.isAdmin
+        }));
+        
+        showSuccess(`Bem-vindo(a) de volta, ${user.name}!`);
+        resetForms();
+        
+        // Atualizar a UI e permanecer na loja
+        updateUIForUser();
+        renderCatalog(); // Re-renderizar os produtos com botões ativos
+        
+    } catch (error) {
+        showError('Erro durante o login. Tente novamente.');
+        console.error('Erro no login:', error);
+    }
 }
 
-function formatCurrency(value) {
-    return new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-    }).format(value);
+async function handleRegistration(e) {
+    e.preventDefault();
+    
+    const name = elements.registerForm.regName.value.trim();
+    const email = elements.registerForm.regEmail.value.trim();
+    const password = elements.registerForm.regPassword.value;
+    const confirmPassword = elements.registerForm.regPasswordConfirm.value;
+    
+    // Validações
+    if (!name || !email || !password || !confirmPassword) {
+        showError('Por favor, preencha todos os campos.');
+        return;
+    }
+    
+    if (password !== confirmPassword) {
+        showError('As senhas não coincidem.');
+        return;
+    }
+    
+    if (password.length < 6) {
+        showError('A senha deve ter pelo menos 6 caracteres.');
+        return;
+    }
+    
+    if (state.users.find(u => u.email === email)) {
+        showError('Este email já está cadastrado.');
+        return;
+    }
+    
+    const newUser = {
+        name,
+        email,
+        password,
+        active: true,
+        isAdmin: false
+    };
+    
+    try {
+        const createdUser = await postUser(newUser);
+        state.users.push(createdUser);
+        showSuccess('Cadastro realizado com sucesso!');
+        elements.registerSection.style.display = 'none';
+        elements.loginSection.style.display = 'block';
+        resetForms();
+    } catch (error) {
+        showError('Falha ao criar a conta. Tente novamente.');
+        console.error(error);
+    }
 }
 
-function resetForms() {
-    if (elements.loginForm) elements.loginForm.reset();
-    if (elements.registerForm) elements.registerForm.reset();
-    if (elements.paymentForm) elements.paymentForm.reset();
-    if (elements.paymentMethod) elements.paymentMethod.value = '';
-    if (elements.pixDetails) elements.pixDetails.style.display = 'none';
-    if (elements.cardDetails) elements.cardDetails.style.display = 'none';
-}
-
-// =======================
-// 8️⃣ Event listeners
-// =======================
+// --- Configuração de event listeners ---
 function setupEventListeners() {
     // Navegação
     if (elements.goToRegister) elements.goToRegister.addEventListener('click', () => showSection(elements.registerSection));
@@ -652,36 +804,6 @@ function setupEventListeners() {
         state.selectedProduct = null;
         if (elements.sizeModal) elements.sizeModal.style.display = 'none';
     });
-    
-    // Botão explorar na hero section
-    const exploreBtn = document.getElementById('exploreBtn');
-    if (exploreBtn) {
-        exploreBtn.addEventListener('click', () => {
-            document.getElementById('dashboard-section').scrollIntoView({ behavior: 'smooth' });
-        });
-    }
-    
-    // Navegação do menu principal
-    const navSobre = document.getElementById('navSobre');
-    const navInicio = document.getElementById('navInicio');
-    const navProdutos = document.getElementById('navProdutos');
-    
-    if (navSobre) navSobre.addEventListener('click', (e) => {
-        e.preventDefault();
-        alert('Sobre nós: Somos uma loja especializada em tênis de qualidade!');
-    });
-    
-    if (navInicio) navInicio.addEventListener('click', (e) => {
-        e.preventDefault();
-        showCatalogOnly();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-    
-    if (navProdutos) navProdutos.addEventListener('click', (e) => {
-        e.preventDefault();
-        showCatalogOnly();
-        document.getElementById('dashboard-section').scrollIntoView({ behavior: 'smooth' });
-    });
 }
 
 function handleLogout() {
@@ -692,12 +814,72 @@ function handleLogout() {
     
     // Atualizar UI e mostrar mensagem
     updateUIForUser();
-    renderCatalog();
+    renderCatalog(); // Re-renderizar os produtos com botões desativados
     showCatalogOnly();
     showSuccess('Você saiu da sua conta.');
 }
 
-// =======================
-// 9️⃣ Inicialização
-// =======================
-document.addEventListener('DOMContentLoaded', fetchData);
+// --- Inicialização da aplicação ---
+async function initializeApp() {
+    try {
+        await fetchAll();
+        setupEventListeners();
+        
+        // SEMPRE mostrar a loja primeiro, independente de login
+        showCatalogOnly();
+        
+        // Verificar se há um usuário logado previamente apenas para atualizar UI
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+            const userData = JSON.parse(savedUser);
+            const user = state.users.find(u => u.email === userData.email);
+            
+            if (user && user.active) {
+                state.currentUser = user;
+                updateUIForUser();
+                renderCatalog(); // Re-renderizar para mostrar botões ativos
+                showSuccess(`Bem-vindo(a) de volta, ${user.name}!`);
+            }
+        }
+        
+    } catch (error) {
+        showError('Falha ao inicializar a aplicação.');
+        console.error(error);
+    }
+}
+
+// Inicia a aplicação quando o DOM estiver carregado
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+    initializeApp();
+}
+
+// Funções de debug para o console
+function debugCart() {
+    console.log('Itens no carrinho:', state.cart);
+    console.log('Quantidade total:', state.cart.reduce((total, item) => total + item.quantity, 0));
+}
+
+function testAddToCart() {
+    if (state.catalog.length === 0) {
+        showError('Nenhum produto carregado.');
+        return;
+    }
+    
+    // Adiciona o primeiro produto do catálogo (apenas para teste)
+    const testProduct = state.catalog[0];
+    const availableSize = Object.keys(testProduct.stockBySize).find(size => 
+        testProduct.stockBySize[size] > 0
+    );
+    
+    if (availableSize) {
+        addToCartWithSize(testProduct, availableSize);
+        showSuccess('Item de teste adicionado ao carrinho!');
+    } else {
+        showError('Nenhum tamanho disponível para teste.');
+    }
+}
+
+
+fetchData();

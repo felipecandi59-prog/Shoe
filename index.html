@@ -3,29 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Passos Certos - Sua loja de calçados online. Encontre os melhores calçados com os melhores preços." />
-  <title>Passos Certos - Loja de Calçados</title>
+  <meta name="description" content="Ande firme com qualidade - Sua loja de tênis online. Encontre os melhores tênis com os melhores preços." />
+  <title>Ande firme com qualidade - Loja de Tênis</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- LOJA / CATALOGO (visível por padrão) -->
+  <!-- Cabeçalho com navegação -->
   <header class="site-header">
     <div class="header-container">
-      <h1>Passos Certos 👟</h1>
-      <p class="tagline">teste do github</p>
+      <div class="logo">
+        <h1>Ande firme com qualidade</h1>
+        <p class="tagline">tênis</p>
+      </div>
+      
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#" id="navSobre">Sobre nós</a></li>
+          <li><a href="#" id="navInicio">Inicio</a></li>
+          <li><a href="#" id="navProdutos">Todos os produtos</a></li>
+        </ul>
+      </nav>
+      
       <div class="header-actions">
         <button id="loginBtn" aria-label="Fazer login">Entrar / Cadastrar</button>
         <button id="logoutBtn" style="display:none;" aria-label="Sair da conta">Sair</button>
         <button id="goToAdminBtn" style="display:none;" aria-label="Painel administrativo">Painel Admin</button>
-        <button id="viewCartBtn" aria-label="Ver carrinho de compras">Carrinho (<span id="cartCount">0</span>)</button>
+        <button id="viewCartBtn" class="cart-btn" aria-label="Ver carrinho de compras">
+          <i class="fas fa-shopping-cart"></i>
+          <span id="cartCount">0</span>
+        </button>
       </div>
     </div>
   </header>
 
   <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h2>Encontre o par perfeito para cada passo</h2>
+        <p>Descubra nossa coleção exclusiva de tênis com conforto e estilo</p>
+        <button id="exploreBtn" class="btn-primary">Explorar Coleção</button>
+      </div>
+    </section>
+
+    <!-- LOJA / CATALOGO (visível por padrão) -->
     <section id="dashboard-section" aria-labelledby="catalog-heading">
-      <h2 id="catalog-heading" class="visually-hidden">Catálogo de produtos</h2>
+      <h2 id="catalog-heading" class="section-title">Nossos Tênis</h2>
       <div id="catalog" class="catalog"></div>
     </section>
 
@@ -195,7 +219,7 @@
   </main>
 
   <footer class="site-footer">
-    <p>&copy; 2025 Passos Certos - Gato-Preto</p>
+    <p>&copy; 2025 Ande firme com qualidade</p>
   </footer>
 
   <script src="script.js"></script>
