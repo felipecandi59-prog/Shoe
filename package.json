@@ -7,5 +7,17 @@
   },
   "dependencies": {
     "json-server": "^0.17.3"
-  }
+  },
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felipecandi59-prog/Shoe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/felipecandi59-prog/Shoe/issues"
+  },
+  "homepage": "https://github.com/felipecandi59-prog/Shoe#readme"
 }

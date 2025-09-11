@@ -1,5 +1,5 @@
 // URL do JSON no GitHub (somente leitura)
-const API = "https://raw.githubusercontent.com/felipecandi59-prog/Shoe/main/db.json";
+const API = "https://shoe-jtqx.onrender.com";
 
 // Estado da aplicação
 const state = {
@@ -51,23 +51,72 @@ const elements = {
     userTable: document.getElementById('userTable'),
     historyTable: document.getElementById('historyTable'),
     stockTable: document.getElementById('stockTable')
+    
 };
+  const settingsSection = document.getElementById('user-settings-section');
+  const settingsForm = document.getElementById('user-settings-form');
+  const openSettingsBtn = document.getElementById('open-settings-btn');
+  const backToCatalogBtn = document.getElementById('back-to-catalog');
+
+ 
 
 // =======================
 // 1️⃣ Carregar dados do GitHub
 // =======================
 async function fetchData() {
     try {
-        const response = await fetch(API);
-        if (!response.ok) throw new Error("Erro ao carregar JSON do GitHub");
-        const data = await response.json();
-        state.users = data.users;
-        state.catalog = data.products;
-        state.purchases = data.purchases;
+        // Busca todos os recursos em paralelo
+        const [usersRes, productsRes, purchasesRes] = await Promise.all([
+            fetch(`${API}/users`),
+            fetch(`${API}/products`),
+            fetch(`${API}/purchases`)
+        ]);
+
+        // Verifica se alguma requisição falhou
+        if (!usersRes.ok || !productsRes.ok || !purchasesRes.ok) {
+            throw new Error("Erro ao carregar dados do servidor");
+        }
+
+        // Transforma as respostas em JSON
+        state.users = await usersRes.json();
+        state.catalog = await productsRes.json();
+        state.purchases = await purchasesRes.json();
+
+        // Continua com o restante do código
         setupEventListeners();
         showCatalogOnly();
-        
-        // Verificar se há um usuário logado previamente
+ 
+
+        if (openSettingsBtn) openSettingsBtn.addEventListener('click', () => {
+  if (!state.currentUser) return showError('Faça login.');
+  document.getElementById('userName').value = state.currentUser.name;
+  showSection(settingsSection);
+});
+
+if (backToCatalogBtn) backToCatalogBtn.addEventListener('click', showCatalogOnly);
+
+if (settingsForm) settingsForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = document.getElementById('userName').value.trim();
+  const password = document.getElementById('userPassword').value;
+  try {
+    await patchUser(state.currentUser.id, { name, password });
+    state.currentUser.name = name;
+    if (password) state.currentUser.password = password;
+    localStorage.setItem('currentUser', JSON.stringify({
+      email: state.currentUser.email,
+      name: state.currentUser.name,
+      isAdmin: state.currentUser.isAdmin
+    }));
+    showSuccess('Configurações atualizadas.');
+    showCatalogOnly();
+  } catch (err) {
+    console.error(err);
+    showError('Erro ao atualizar configurações.');
+  }
+});
+
+        // Verifica se existe usuário logado
         const savedUser = localStorage.getItem('currentUser');
         if (savedUser) {
             const userData = JSON.parse(savedUser);
@@ -80,11 +129,13 @@ async function fetchData() {
                 showSuccess(`Bem-vindo(a) de volta, ${user.name}!`);
             }
         }
+
     } catch (error) {
         console.error("Erro:", error);
         showError("Não foi possível carregar os dados da loja!");
     }
 }
+
 
 // =======================
 // 2️⃣ Login e registro (somente memória)
@@ -149,6 +200,8 @@ function showSection(section) {
     
     if (section) section.style.display = 'block';
     updateUIForUser();
+
+    
 }
 
 function updateUIForUser() {
@@ -156,6 +209,9 @@ function updateUIForUser() {
     if (elements.loginBtn) elements.loginBtn.style.display = currentUser ? 'none' : 'inline-block';
     if (elements.logoutBtn) elements.logoutBtn.style.display = currentUser ? 'inline-block' : 'none';
     if (elements.goToAdminBtn) elements.goToAdminBtn.style.display = (currentUser && currentUser.isAdmin) ? 'inline-block' : 'none';
+    if (document.getElementById('open-settings-btn'))
+  document.getElementById('open-settings-btn').style.display = state.currentUser ? 'inline-block' : 'none';
+
 }
 
 function showCatalogOnly() {
@@ -498,11 +554,14 @@ function renderStockTable() {
                     />
                 </td>
             `).join('')}
-            <td>
-                <button class="btn-sm btn-primary" data-action="saveStock" data-product-id="${product.id}">
-                    Salvar
-                </button>
-            </td>
+           <td>
+  <button class="btn-sm btn-primary" data-action="saveStock" data-product-id="${product.id}">
+    Salvar
+  </button>
+  <button class="btn-sm btn-secondary" data-action="restock" data-product-id="${product.id}">
+    Reabastecer
+  </button>
+</td>
         `;
 
         tbody.appendChild(tr);
@@ -515,6 +574,14 @@ function renderStockTable() {
             await saveProductStock(productId);
         });
     });
+
+    tbody.querySelectorAll('[data-action="restock"]').forEach(button => {
+  button.addEventListener('click', async (e) => {
+    const productId = e.target.dataset.productId;
+    await restockProduct(productId);
+  });
+});
+
 }
 
 async function restockProduct(productId) {
@@ -543,6 +610,27 @@ async function restockProduct(productId) {
         console.error(error);
     }
 }
+async function saveProductStock(productId) {
+  const product = state.catalog.find(p => p.id == productId);
+  if (!product) return;
+
+  // pega todos inputs do produto
+  const inputs = document.querySelectorAll(`input[data-product-id="${productId}"]`);
+  inputs.forEach(input => {
+    const size = input.dataset.size;
+    product.stockBySize[size] = parseInt(input.value) || 0;
+  });
+
+  try {
+    // PATCH para o servidor
+    await patchProductStock(productId, product.stockBySize);
+    showSuccess(`Estoque do produto ${product.name} salvo com sucesso.`);
+  } catch (err) {
+    console.error(err);
+    showError('Erro ao salvar estoque.');
+  }
+}
+
 
 
 // =======================
@@ -570,6 +658,27 @@ function resetForms() {
     if (elements.paymentMethod) elements.paymentMethod.value = '';
     if (elements.pixDetails) elements.pixDetails.style.display = 'none';
     if (elements.cardDetails) elements.cardDetails.style.display = 'none';
+}
+
+
+  async function patchUser(userId, data) {
+  const res = await fetch(`${API}/users/${userId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) throw new Error('Erro ao atualizar usuário');
+  return await res.json();
+}
+
+async function patchProductStock(productId, stockBySize) {
+  const res = await fetch(`${API}/products/${productId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ stockBySize })
+  });
+  if (!res.ok) throw new Error('Erro ao atualizar estoque');
+  return await res.json();
 }
 
 // =======================
