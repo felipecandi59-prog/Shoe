@@ -810,3 +810,70 @@ function handleLogout() {
 // 9️⃣ Inicialização
 // =======================
 document.addEventListener('DOMContentLoaded', fetchData);
+
+
+// teste 3
+document.addEventListener('DOMContentLoaded', () => {
+  const goToAdminBtn = document.getElementById('goToAdminBtn');
+
+  if (goToAdminBtn) {
+    goToAdminBtn.addEventListener('click', () => {
+      // Redireciona para a página admin.html
+      window.location.href = 'admin.html';
+    });
+  }
+});
+
+
+
+
+const canvas = document.getElementById("bgCanvas");
+const ctx = canvas.getContext("2d");
+
+let w = canvas.width = window.innerWidth;
+let h = canvas.height = window.innerHeight;
+
+window.addEventListener("resize", () => {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+});
+
+// Criando partículas
+const particles = [];
+const particleCount = 60;
+
+for (let i = 0; i < particleCount; i++) {
+  particles.push({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    r: 2 + Math.random() * 4,
+    dx: -0.5 + Math.random(),
+    dy: -0.5 + Math.random(),
+    color: `rgba(${121}, ${40}, ${202}, ${0.2 + Math.random() * 0.3})` // roxo translúcido
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, w, h);
+
+  for (let i = 0; i < particles.length; i++) {
+    let p = particles[i];
+    p.x += p.dx;
+    p.y += p.dy;
+
+    // rebote nas bordas
+    if (p.x < 0 || p.x > w) p.dx *= -1;
+    if (p.y < 0 || p.y > h) p.dy *= -1;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, false);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+  }
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+

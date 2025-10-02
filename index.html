@@ -14,255 +14,127 @@
     <div class="header-container">
       <div class="logo">
         <h1>Ande firme com qualidade</h1>
-        <p class="tagline">tênis</p>
+        <p class="tagline">Tênis</p>
       </div>
-      
+
       <nav class="main-nav">
         <ul>
-          <li><a href="#" id="navSobre">Sobre nós</a></li>
-          <li><a href="#" id="navInicio">Inicio</a></li>
-          <li><a href="#" id="navProdutos">Todos os produtos</a></li>
+          <li><a href="sobre.html">Sobre nós</a></li>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="produtos.html">Todos os produtos</a></li>
+          <li><a href="login.html">Cadastro</a></li>
         </ul>
       </nav>
-      
+
       <div class="header-actions">
-        <button id="loginBtn" aria-label="Fazer login">Entrar / Cadastrar</button>
         <button id="logoutBtn" style="display:none;" aria-label="Sair da conta">Sair</button>
         <button id="goToAdminBtn" style="display:none;" aria-label="Painel administrativo">Painel Admin</button>
-        <button id="open-settings-btn" style="display:none;" aria-label="Configurações da conta">Configurações</button>
-        <button id="open-settings-btn" style="display:none;">Configurações</button>
+        <button id="open-settings-btn" style="display:none;" aria-label="Configurações da conta">👤</button>
         <button id="viewCartBtn" class="cart-btn" aria-label="Ver carrinho de compras">
           <i class="fas fa-shopping-cart"></i>
           <span id="cartCount">0</span>
-        
         </button>
+        <input type="search" placeholder="Busque um produto ou marca">
       </div>
     </div>
   </header>
 
-  <main id="main-content">
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-content">
-        <h2>Encontre o par perfeito para cada passo</h2>
-        <p>Descubra nossa coleção exclusiva de tênis com conforto e estilo</p>
-        <button id="exploreBtn" class="btn-primary">Explorar Coleção</button>
-      </div>
-    </section>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Encontre o par perfeito para cada passo</h2>
+      <p>Descubra nossa coleção exclusiva de tênis com conforto e estilo</p>
+      <button id="exploreBtn" class="btn-primary">Explorar Coleção</button>
+    </div>
+  </section>
 
-    <!-- LOJA / CATALOGO (visível por padrão) -->
-    <section id="dashboard-section" aria-labelledby="catalog-heading">
-      <h2 id="catalog-heading" class="section-title">Nossos Tênis</h2>
-      <div id="catalog" class="catalog"></div>
-    </section>
+  <!-- LOJA / CATALOGO -->
+  <section id="dashboard-section" aria-labelledby="catalog-heading">
+    <h2 id="catalog-heading" class="section-title">Nossos Tênis</h2>
+    <div id="catalog" class="catalog"></div>
+  </section>
 
-    <!-- LOGIN -->
-    <section id="login-section" style="display:none;" class="auth-section" aria-labelledby="login-heading">
-      <h2 id="login-heading">Login</h2>
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="loginEmail">Email</label>
-          <input type="email" id="loginEmail" required aria-required="true" />
-        </div>
-        <div class="form-group">
-          <label for="loginPassword">Senha</label>
-          <input type="password" id="loginPassword" required aria-required="true" />
-        </div>
-        <button class="btn-primary" type="submit">Entrar</button>
-      </form>
-      <div class="switch-auth">
-        <p>Não tem conta?</p>
-        <button id="goToRegister" class="link-btn">Cadastrar-se</button>
-      </div>
-    </section>
-
-    <!-- REGISTRO -->
-    <section id="register-section" style="display:none;" class="auth-section" aria-labelledby="register-heading">
-      <h2 id="register-heading">Cadastro</h2>
-      <form id="registerForm">
-        <div class="form-group">
-          <label for="regName">Nome</label>
-          <input type="text" id="regName" required aria-required="true" />
-        </div>
-        <div class="form-group">
-          <label for="regEmail">Email</label>
-          <input type="email" id="regEmail" required aria-required="true" />
-        </div>
-        <div class="form-group">
-          <label for="regPassword">Senha</label>
-          <input type="password" id="regPassword" required aria-required="true" />
-        </div>
-        <div class="form-group">
-          <label for="regPasswordConfirm">Confirme a senha</label>
-          <input type="password" id="regPasswordConfirm" required aria-required="true" />
-        </div>
-        <button class="btn-primary" type="submit">Cadastrar</button>
-      </form>
-      <div class="switch-auth">
-        <p>Já tem conta?</p>
-        <button id="goToLogin" class="link-btn">Entrar</button>
-      </div>
-    </section>
-
-    <!-- PAINEL ADMIN -->
-    <section id="admin-section" style="display:none;" aria-labelledby="admin-heading">
-      <div class="admin-top">
-        <button id="goToShopBtn">Ir para Loja</button>
-        <button id="adminLogoutBtn">Sair</button>
-      </div>
-
-      <h2 id="admin-heading">Painel Administrativo</h2>
-
-      <div class="admin-subsection">
-        <h3>Histórico de Compras</h3>
-        <div class="table-container">
-          <table id="historyTable">
-            <thead>
-              <tr><th scope="col">Usuário</th><th scope="col">Itens</th><th scope="col">Total</th><th scope="col">Data</th></tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="admin-subsection">
-        <h3>Informações de Usuário</h3>
-        <div class="table-container">
-          <table id="userTable">
-            <thead>
-              <tr><th scope="col">Nome</th><th scope="col">Email</th><th scope="col">Status</th><th scope="col">Ações</th></tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="admin-subsection">
-        <h3>Estoque de Produtos</h3>
-        <div class="table-container">
-          <table id="stockTable">
-            <thead>
-              <tr>
-                <th scope="col">Produto</th><th scope="col">Imagem</th>
-                <th scope="col">34</th><th scope="col">35</th><th scope="col">36</th><th scope="col">37</th>
-                <th scope="col">38</th><th scope="col">39</th><th scope="col">Ação</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- MODAL CARRINHO -->
-    <div id="cartModal" class="modal" style="display:none;" role="dialog" aria-labelledby="cartModalTitle" aria-modal="true">
-      <div class="modal-content">
-        <span id="closeCartBtn" class="close" aria-label="Fechar modal">&times;</span>
-        <h3 id="cartModalTitle">Carrinho</h3>
-        <ul id="cartItems" aria-label="Itens do carrinho"></ul>
-        <p><strong>Total: R$ <span id="cartTotal">0.00</span></strong></p>
-        <div class="cart-actions">
-          <button id="checkoutBtn" class="btn-primary">Finalizar Compra</button>
-        </div>
+  <!-- MODAL CARRINHO -->
+  <div id="cartModal" class="modal" style="display:none;" role="dialog" aria-labelledby="cartModalTitle" aria-modal="true">
+    <div class="modal-content">
+      <span id="closeCartBtn" class="close" aria-label="Fechar modal">&times;</span>
+      <h3 id="cartModalTitle">Carrinho</h3>
+      <ul id="cartItems" aria-label="Itens do carrinho"></ul>
+      <p><strong>Total: <span id="cartTotal">0.00</span></strong></p>
+      <div class="cart-actions">
+        <button id="checkoutBtn" class="btn-primary">Finalizar Compra</button>
       </div>
     </div>
+  </div>
 
-    <!-- SEÇÃO DE PAGAMENTO -->
-    <section id="payment-section" style="display:none;" class="auth-section" aria-labelledby="payment-heading">
-      <h2 id="payment-heading">Pagamento</h2>
-      <p>Cliente: <span id="customerName"></span></p>
-      <p>Total a pagar: R$ <span id="paymentTotal"></span></p>
+  <!-- SEÇÃO DE PAGAMENTO -->
+  <section id="payment-section" style="display:none;" class="auth-section" aria-labelledby="payment-heading">
+    <h2 id="payment-heading">Pagamento</h2>
+    <p>Cliente: <span id="customerName"></span></p>
+    <p>Total a pagar: <span id="paymentTotal"></span></p>
 
-      <form id="paymentForm">
+    <form id="paymentForm">
+      <div class="form-group">
+        <label for="paymentMethod">Método de pagamento</label>
+        <select id="paymentMethod" required aria-required="true">
+          <option value="">Selecione</option>
+          <option value="pix">PIX</option>
+          <option value="card">Cartão de Crédito</option>
+        </select>
+      </div>
+
+      <div id="pixDetails" style="display:none;">
+        <p>PIX: 62 992756442</p>
+      </div>
+
+      <div id="cardDetails" style="display:none;">
         <div class="form-group">
-          <label for="paymentMethod">Método de pagamento</label>
-          <select id="paymentMethod" required aria-required="true">
-            <option value="">Selecione</option>
-            <option value="pix">PIX</option>
-            <option value="card">Cartão de Crédito</option>
-          </select>
+          <label for="cardNumber">Número do cartão</label>
+          <input type="text" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX" />
         </div>
-
-        <div id="pixDetails" style="display:none;">
-          <p>PIX: 62 992756442</p>
+        <div class="form-group">
+          <label for="cardExpiry">Validade</label>
+          <input type="text" id="cardExpiry" placeholder="MM/AA" />
         </div>
-
-        <div id="cardDetails" style="display:none;">
-          <div class="form-group">
-            <label for="cardNumber">Número do cartão</label>
-            <input type="text" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX" />
-          </div>
-          <div class="form-group">
-            <label for="cardExpiry">Validade</label>
-            <input type="text" id="cardExpiry" placeholder="MM/AA" />
-          </div>
-          <div class="form-group">
-            <label for="cardCVC">CVC</label>
-            <input type="text" id="cardCVC" placeholder="XXX" />
-          </div>
-        </div>
-
-        <button id="confirmPaymentBtn" class="btn-primary">Confirmar Pagamento</button>
-        <button id="backToShopBtn" class="btn-secondary">Voltar à Loja</button>
-      </form>
-    </section>
-
-    <!-- CONFIGURAÇÕES DO USUÁRIO -->
-<section id="user-settings-section" style="display:none;" class="auth-section" aria-labelledby="settings-heading">
-  <h2 id="settings-heading">Configurações da Conta</h2>
-  <form id="user-settings-form">
-    <div class="form-group">
-      <label for="settings-name">Nome</label>
-      <input type="text" id="settings-name" required>
-    </div>
-
-    <div class="form-group">
-      <label for="settings-email">Email</label>
-      <input type="email" id="settings-email" disabled>
-    </div>
-
-    <div class="form-group">
-      <label for="settings-password">Senha</label>
-      <input type="password" id="settings-password" required>
-    </div>
-
-    <button class="btn-primary" type="submit">Salvar Alterações</button>
-  </form>
-
-  <button id="back-to-catalog" class="btn-secondary">Voltar</button>
-</section>
-
-
-    <!-- Modal Seleção de Tamanho -->
-    <div id="sizeModal" class="size-modal" style="display:none;" role="dialog" aria-labelledby="sizeModalTitle" aria-modal="true">
-      <div class="size-modal-content">
-        <h3 id="sizeModalTitle">Selecione o tamanho</h3>
-        <select id="sizeSelect"></select>
-        <div class="size-modal-actions">
-          <button id="confirmSizeBtn" class="btn-primary">Adicionar ao Carrinho</button>
-          <button id="cancelSizeBtn" class="btn-secondary">Cancelar</button>
+        <div class="form-group">
+          <label for="cardCVC">CVC</label>
+          <input type="text" id="cardCVC" placeholder="XXX" />
         </div>
       </div>
-    </div>
 
-    <section id="user-settings-section" style="display:none;" class="auth-section">
-  <h2>Configurações da Conta</h2>
-  <form id="user-settings-form">
-    <div class="form-group">
-      <label for="userName">Nome</label>
-      <input type="text" id="userName" />
-    </div>
-    <div class="form-group">
-      <label for="userPassword">Nova senha</label>
-      <input type="password" id="userPassword" />
-    </div>
-    <button type="submit" class="btn-primary">Salvar Alterações</button>
-    <button type="button" id="back-to-catalog" class="btn-secondary">Voltar</button>
-  </form>
-</section>
+      <button id="confirmPaymentBtn" class="btn-primary">Confirmar Pagamento</button>
+      <button id="backToShopBtn" class="btn-secondary">Voltar à Loja</button>
+    </form>
+  </section>
 
+  <!-- CONFIGURAÇÕES DO USUÁRIO -->
+  <section id="user-settings-section" style="display:none;" class="auth-section">
+    <h2>Configurações da Conta</h2>
+    <form id="user-settings-form">
+      <div class="form-group">
+        <label for="userName">Nome</label>
+        <input type="text" id="userName" />
+      </div>
+      <div class="form-group">
+        <label for="userPassword">Nova senha</label>
+        <input type="password" id="userPassword" />
+      </div>
+      <button type="submit" class="btn-primary">Salvar Alterações</button>
+      <button type="button" id="back-to-catalog" class="btn-secondary">Voltar</button>
+    </form>
+  </section>
 
-  </main>
+  <!-- Modal Seleção de Tamanho -->
+  <div id="sizeModal" class="size-modal" style="display:none;" role="dialog" aria-labelledby="sizeModalTitle" aria-modal="true">
+    <div class="size-modal-content">
+      <h3 id="sizeModalTitle">Selecione o tamanho</h3>
+      <select id="sizeSelect"></select>
+      <div class="size-modal-actions">
+        <button id="confirmSizeBtn" class="btn-primary">Adicionar ao Carrinho</button>
+        <button id="cancelSizeBtn" class="btn-secondary">Cancelar</button>
+      </div>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <p>&copy; 2025 Ande firme com qualidade</p>
