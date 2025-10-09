@@ -83,8 +83,11 @@ async function fetchData() {
         state.purchases = await purchasesRes.json();
 
         // Continua com o restante do código
-        setupEventListeners();
-        showCatalogOnly();
+       setupEventListeners();
+
+// Exibe a seção de login apenas se ela existir nesta página
+if (elements.loginSection) showSection(elements.loginSection);
+
  
 
         if (openSettingsBtn) openSettingsBtn.addEventListener('click', () => {
@@ -266,8 +269,9 @@ function renderCatalog() {
         if (state.currentUser) {
             card.querySelector('img').addEventListener('click', () => openSizeModal(product));
             card.querySelector('button').addEventListener('click', () => {
-                showError('Clique na imagem do produto e escolha o tamanho antes de adicionar.');
-            });
+    openSizeModal(product);
+});
+
         } else {
             card.querySelector('img').addEventListener('click', () => {
                 showError('Faça login para visualizar os tamanhos disponíveis.');
