@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Ande firme com qualidade - Sua loja de tênis online. Encontre os melhores tênis com os melhores preços." />
+  <title>Ande firme com qualidade - Loja deTênis</title>
+  
+  <!-- Font Awesome para ícones -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Canvas de fundo animado -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Cabeçalho -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="logo">
+        <a href="index.html">
+          <img src="T.png" alt="Logo Ande Firme" class="logo-img">
+        </a>
+        <div class="logo-text">
+          <h1>Ande firme com qualidade</h1>
+          <p class="tagline">Tênis</p>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+        <ul>
+          <li><a href="sobre.html">Sobre nós</a></li>
+          <li><a href="index.html" class="active">Início</a></li>
+          <li><a href="produtos.html">Todos os produtos</a></li>
+          <li><a href="login.html">Cadastro</a></li>
+          <li><a href="compra.html">🛒</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button id="logoutBtn" style="display:none;" aria-label="Sair da conta">Sair</button>
+        <button id="goToAdminBtn" style="display:none;" aria-label="Painel administrativo">Painel Admin</button>
+        <button id="open-settings-btn" style="display:none;" aria-label="Configurações da conta">👤</button>
+        <input type="search" placeholder="Busque um produto ou marca">
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Encontre o par perfeito para cada passo</h2>
+      <p>Descubra nossa coleção exclusiva de tênis com conforto e estilo</p>
+      <button id="exploreBtn" class="btn-primary">Explorar Coleção</button>
+    </div>
+  </section>
+
+  <!-- Catálogo / Loja -->
+  <section id="dashboard-section" aria-labelledby="catalog-heading">
+    <h2 id="catalog-heading" class="section-title">Nossos Tênis</h2>
+    <div id="catalog" class="catalog"></div>
+  </section>
+
+  <!-- Configurações do Usuário -->
+  <section id="user-settings-section" class="auth-section" style="display:none;">
+    <h2>Configurações da Conta</h2>
+    <form id="user-settings-form">
+      <div class="form-group">
+        <label for="userName">Nome</label>
+        <input type="text" id="userName" />
+      </div>
+      <div class="form-group">
+        <label for="userPassword">Nova senha</label>
+        <input type="password" id="userPassword" />
+      </div>
+      <button type="submit" class="btn-primary">Salvar Alterações</button>
+      <button type="button" id="back-to-catalog" class="btn-secondary">Voltar</button>
+    </form>
+  </section>
+
+  <!-- Modal Seleção de Tamanho -->
+  <div id="sizeModal" class="size-modal" style="display:none;" role="dialog" aria-labelledby="sizeModalTitle" aria-modal="true">
+    <div class="size-modal-content">
+      <h3 id="sizeModalTitle">Selecione o tamanho</h3>
+      <select id="sizeSelect"></select>
+      <div class="size-modal-actions">
+        <button id="confirmSizeBtn" class="btn-primary">Adicionar ao Carrinho</button>
+        <button id="cancelSizeBtn" class="btn-secondary">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="site-footer">
+    <p>&copy; 2025 Ande firme com qualidade</p>
+  </footer>
+
+  <!-- JS -->
+  <script src="script.js"></script>
+</body>
+</html>

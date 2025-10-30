@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header igual ao do index -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="logo">
+        <h1>Ande firme com qualidade</h1>
+        <p class="tagline">tênis</p>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Início</a></li>
+          <li><a href="produtos.html">Todos os produtos</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button id="goToShopBtn">Ir para Loja</button>
+        <button id="adminLogoutBtn">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- PAINEL ADMIN -->
+    <section id="admin-section" aria-labelledby="admin-heading">
+      <h2 id="admin-heading">Painel Administrativo</h2>
+
+      <!-- Histórico de Compras -->
+      <div class="admin-subsection">
+        <h3>Histórico de Compras</h3>
+        <div class="table-container">
+          <table id="historyTable">
+            <thead>
+              <tr>
+                <th scope="col">Usuário</th>
+                <th scope="col">Itens</th>
+                <th scope="col">Total</th>
+                <th scope="col">Data</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Informações de Usuário -->
+      <div class="admin-subsection">
+        <h3>Informações de Usuário</h3>
+        <div class="table-container">
+          <table id="userTable">
+            <thead>
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Email</th>
+                <th scope="col">Status</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Estoque de Produtos -->
+      <div class="admin-subsection">
+        <h3>Estoque de Produtos</h3>
+        <div class="table-container">
+          <table id="stockTable">
+            <thead>
+              <tr>
+                <th scope="col">Produto</th>
+                <th scope="col">Imagem</th>
+                <th scope="col">34</th>
+                <th scope="col">35</th>
+                <th scope="col">36</th>
+                <th scope="col">37</th>
+                <th scope="col">38</th>
+                <th scope="col">39</th>
+                <th scope="col">Ação</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Ande firme com qualidade</p>
+  </footer>
+
+  <script src="admin.js"></script>
+</body>
+</html>

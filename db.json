@@ -1,0 +1,136 @@
+{
+  "users": [
+    {
+      "name": "Admin",
+      "email": "admin@admin.com",
+      "password": "admin",
+      "active": true,
+      "isAdmin": true,
+      "id": "bbe6"
+    },
+    {
+      "id": "8134",
+      "name": "felipe",
+      "email": "felipe@gmail.com",
+      "password": "1234",
+      "active": true,
+      "isAdmin": false
+    },
+    {
+      "id": "7d56",
+      "name": "felipe",
+      "email": "felipecandi59@gmail.com",
+      "password": "123456",
+      "active": true,
+      "isAdmin": false
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Salto",
+      "price": 199.9,
+      "image": "salto.webp",
+      "stockBySize": {
+        "34": 8,
+        "35": 6,
+        "36": 8,
+        "37": 6,
+        "38": 4,
+        "39": 9
+      }
+    },
+    {
+      "id": "2",
+      "name": "Salto",
+      "price": 149.9,
+      "image": "salto.jpg.jpg",
+      "stockBySize": {
+        "34": 2,
+        "35": 4,
+        "36": 7,
+        "37": 3,
+        "38": 5,
+        "39": 6
+      }
+    },
+    {
+      "id": "3",
+      "name": "Sandália",
+      "price": 179.9,
+      "image": "san.webp",
+      "stockBySize": {
+        "34": 1,
+        "35": 1,
+        "36": 2,
+        "37": 2,
+        "38": 0,
+        "39": 0
+      }
+    },
+     {
+      "id": "4",
+      "name": "tenis",
+      "price": 179.9,
+      "image": "tenis-gucci.jpg",
+      "stockBySize": {
+        "34": 1,
+        "35": 1,
+        "36": 2,
+        "37": 2,
+        "38": 0,
+        "39": 0
+      }
+    }
+  ],
+  "purchases": [
+    {
+      "id": "94d4",
+      "userEmail": "felipecandi59@gmail.com",
+      "userName": "felipe",
+      "items": [
+        {
+          "name": "Salto",
+          "price": 199.9,
+          "quantity": 1,
+          "size": "34"
+        }
+      ],
+      "total": 199.9,
+      "date": "26/08/2025, 09:57:16",
+      "paymentMethod": "pix"
+    },
+    {
+      "id": "1fcb",
+      "userEmail": "felipecandi59@gmail.com",
+      "userName": "felipe",
+      "items": [
+        {
+          "name": "Salto",
+          "price": 199.9,
+          "quantity": 1,
+          "size": "34"
+        }
+      ],
+      "total": 199.9,
+      "date": "26/08/2025, 09:57:32",
+      "paymentMethod": "pix"
+    },
+    {
+      "id": "3c92",
+      "userEmail": "admin@admin.com",
+      "userName": "Admin",
+      "items": [
+        {
+          "name": "Salto",
+          "price": 199.9,
+          "quantity": 1,
+          "size": "34"
+        }
+      ],
+      "total": 199.9,
+      "date": "28/08/2025, 10:34:27",
+      "paymentMethod": "pix"
+    }
+  ]
+}
