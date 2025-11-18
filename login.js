@@ -1,78 +1,28 @@
-// ===============================
-// Login - Ande firme com qualidade
-// ===============================
+// login.js
+import { auth } from "./firebase-config.js";
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
-// URL base do json-server
-// =======================
-// Configuração da API
-// =======================
-let API = "";
+const loginForm = document.getElementById("loginForm");
 
-// Detecta se está rodando localmente (localhost) ou online
-if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-    API = "http://localhost:3000"; // JSON Server local
-} else {
-    API = "https://shoe-jtqx.onrender.com"; // JSON remoto no Render
-}
+loginForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-console.log("API usada:", API);
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
 
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    alert("Login realizado com sucesso!");
+    window.location.href = "dashboard.html";
 
+  } catch (error) {
+    console.error("Erro no login:", error);
+    let msg = "Erro ao fazer login.";
 
-// Função principal: inicializa a página de login
-document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("loginForm");
-  const emailInput = document.getElementById("loginEmail");
-  const passwordInput = document.getElementById("loginPassword");
+    if (error.code === "auth/user-not-found") msg = "Usuário não encontrado.";
+    if (error.code === "auth/wrong-password") msg = "Senha incorreta.";
+    if (error.code === "auth/invalid-email") msg = "Email inválido.";
 
-  // Garante que o formulário existe na página
-  if (!loginForm) return;
-
-  // Evento de envio do formulário
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
-
-    // Verificação simples
-    if (!email || !password) {
-      alert("Por favor, preencha todos os campos.");
-      return;
-    }
-
-    try {
-      // Busca usuário no banco JSON
-      const response = await fetch(`${API}/users?email=${email}&password=${password}`);
-      const users = await response.json();
-
-      // Verifica se encontrou o usuário
-      if (users.length === 0) {
-        alert("Email ou senha incorretos!");
-        return;
-      }
-
-      const user = users[0];
-
-      // Verifica se o usuário está ativo
-      if (!user.active) {
-        alert("Sua conta está desativada. Contate o administrador.");
-        return;
-      }
-
-      // Armazena o usuário logado localmente
-      localStorage.setItem("currentUser", JSON.stringify(user));
-
-      // Redireciona de acordo com o tipo de usuário
-      if (user.email === "admin@admin.com") {
-        window.location.href = "painel-admin.html";
-      } else {
-        window.location.href = "index.html";
-      }
-
-    } catch (error) {
-      console.error("Erro ao fazer login:", error);
-      alert("Erro ao conectar ao servidor. Verifique se o servidor JSON está ativo.");
-    }
-  });
+    alert(msg + "\n" + error.message);
+  }
 });

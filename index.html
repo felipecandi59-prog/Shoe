@@ -2,21 +2,17 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />w
   <meta name="description" content="Ande firme com qualidade - Sua loja de tênis online. Encontre os melhores tênis com os melhores preços." />
-  <title>Ande firme com qualidade - Loja deTênis</title>
+  <title>Ande firme com qualidade - Loja de Tênis</title>
   
-  <!-- Font Awesome para ícones -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <!-- Canvas de fundo animado -->
+
   <canvas id="bgCanvas"></canvas>
 
-  <!-- Cabeçalho -->
   <header class="site-header">
     <div class="header-container">
       <div class="logo">
@@ -34,7 +30,7 @@
           <li><a href="sobre.html">Sobre nós</a></li>
           <li><a href="index.html" class="active">Início</a></li>
           <li><a href="produtos.html">Todos os produtos</a></li>
-          <li><a href="login.html">Cadastro</a></li>
+          <li><a href="cadrastro.html">Cadastro</a></li>
           <li><a href="compra.html">🛒</a></li>
         </ul>
       </nav>
@@ -48,7 +44,6 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
       <h2>Encontre o par perfeito para cada passo</h2>
@@ -57,13 +52,11 @@
     </div>
   </section>
 
-  <!-- Catálogo / Loja -->
   <section id="dashboard-section" aria-labelledby="catalog-heading">
     <h2 id="catalog-heading" class="section-title">Nossos Tênis</h2>
     <div id="catalog" class="catalog"></div>
   </section>
 
-  <!-- Configurações do Usuário -->
   <section id="user-settings-section" class="auth-section" style="display:none;">
     <h2>Configurações da Conta</h2>
     <form id="user-settings-form">
@@ -80,7 +73,6 @@
     </form>
   </section>
 
-  <!-- Modal Seleção de Tamanho -->
   <div id="sizeModal" class="size-modal" style="display:none;" role="dialog" aria-labelledby="sizeModalTitle" aria-modal="true">
     <div class="size-modal-content">
       <h3 id="sizeModalTitle">Selecione o tamanho</h3>
@@ -92,12 +84,20 @@
     </div>
   </div>
 
-  <!-- Rodapé -->
   <footer class="site-footer">
     <p>&copy; 2025 Ande firme com qualidade</p>
   </footer>
 
-  <!-- JS -->
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+
+  <!-- Configuração Firebase -->
+  <script src="firebase-config.js"></script>
+
+  <!-- Script principal -->
   <script src="script.js"></script>
+
 </body>
 </html>

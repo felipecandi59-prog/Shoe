@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Ande Firme</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-container">
+    <div class="logo">
+      <h1>Ande firme com qualidade</h1>
+    </div>
+    <div class="header-actions">
+      <button id="btnLogout" class="btn-secondary">Sair</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="dashboard-section">
+    <h2>Bem-vindo, <span id="userName"></span>!</h2>
+    <p>Você está logado na sua conta.</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; 2025 Ande firme com qualidade</p>
+</footer>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js"></script>
+
+<!-- Script Dashboard modular -->
+<script type="module" src="dashboard.js"></script>
+
+</body>
+</html>
