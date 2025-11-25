@@ -57,11 +57,40 @@
     <div id="catalog" class="catalog"></div>
   </section>
 
+  <!-- Modal de tamanho -->
+  <div id="sizeModal" class="size-modal" style="display:none;" role="dialog" aria-labelledby="sizeModalTitle" aria-modal="true">
+    <div class="size-modal-content">
+      <h3 id="sizeModalTitle">Selecione o tamanho</h3>
+      <select id="sizeSelect"></select>
+      <div class="size-modal-actions">
+        <button id="confirmSizeBtn" class="btn-primary">Adicionar ao Carrinho</button>
+        <button id="cancelSizeBtn" class="btn-secondary">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seção de configurações do usuário -->
+  <section id="user-settings-section" class="auth-section" style="display:none;">
+    <h2>Configurações da Conta</h2>
+    <form id="user-settings-form">
+      <div class="form-group">
+        <label for="userName">Nome</label>
+        <input type="text" id="userName" />
+      </div>
+      <div class="form-group">
+        <label for="userPassword">Nova senha</label>
+        <input type="password" id="userPassword" />
+      </div>
+      <button type="submit" class="btn-primary">Salvar Alterações</button>
+      <button type="button" id="back-to-catalog" class="btn-secondary">Voltar</button>
+    </form>
+  </section>
+
   <footer class="site-footer">
     <p>&copy; 2025 Ande firme com qualidade</p>
   </footer>
 
-  <!-- Script do index.js -->
+  <!-- Script principal -->
   <script type="module" src="./script.js"></script>
 
 </body>
