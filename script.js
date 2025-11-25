@@ -6,7 +6,7 @@ import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/
 import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 // ==========================
-// ELEMENTOS DO DOM
+// ELEMENTOS DO DO
 // ==========================
 const catalogDiv = document.getElementById('catalog');
 const logoutBtn = document.getElementById('logoutBtn');
