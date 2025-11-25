@@ -132,3 +132,50 @@ backToCatalogBtn.addEventListener('click', () => {
 // INICIALIZAÇÃO
 // ==========================
 loadProducts();
+
+
+
+//teste
+
+import { auth, db } from "./firebase-config.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+
+
+// Função para atualizar visibilidade de botões conforme login
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    logoutBtn.style.display = "inline-block";
+    openSettingsBtn.style.display = "inline-block";
+
+    // Pegar dados do usuário
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+    const userData = userDoc.data();
+
+    // Se for admin
+    if (userData?.admin) {
+      goToAdminBtn.style.display = "inline-block";
+    }
+
+  } else {
+    logoutBtn.style.display = "none";
+    goToAdminBtn.style.display = "none";
+    openSettingsBtn.style.display = "none";
+  }
+});
+
+// Logout
+logoutBtn.addEventListener("click", async () => {
+  await signOut(auth);
+  window.location.href = "login.html";
+});
+
+// Abrir dashboard
+openSettingsBtn.addEventListener("click", () => {
+  window.location.href = "dashboard.html"; // ou área de usuário
+});
+
+// Abrir painel admin (se admin)
+goToAdminBtn.addEventListener("click", () => {
+  window.location.href = "admin.html"; // se existir
+});
