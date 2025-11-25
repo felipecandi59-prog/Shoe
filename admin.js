@@ -1,98 +1,100 @@
+// admin.js
 import { auth, db } from "./firebase-config.js";
+import { collection, addDoc, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-import { collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-// DOM Elements
-const btnLogout = document.getElementById("btnLogout");
-const btnBack = document.getElementById("btnBack");
-const addProductForm = document.getElementById("add-product-form");
-const productListDiv = document.getElementById("product-list");
+document.addEventListener("DOMContentLoaded", () => {
 
-let currentUser = null;
+  // ELEMENTOS DO DOM
+  const addProductForm = document.getElementById("add-product-form");
+  const productListDiv = document.getElementById("product-list");
 
-// ==========================
-// VERIFICA ADMIN
-// ==========================
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    currentUser = user;
+  const btnLogout = document.createElement("button");
+  btnLogout.textContent = "Sair";
+  btnLogout.classList.add("btn-secondary");
+  document.querySelector(".header-actions")?.appendChild(btnLogout);
 
-    // Apenas admin
-    const docUser = await getDoc(doc(db, "users", user.uid));
-    const userData = docUser.data();
-    if(!userData?.admin){
-      alert("Acesso negado: você não é admin!");
+  // FUNÇÃO PARA LISTAR PRODUTOS
+  async function loadProducts() {
+    productListDiv.innerHTML = '';
+    try {
+      const querySnapshot = await getDocs(collection(db, "products"));
+      querySnapshot.forEach(docItem => {
+        const product = { id: docItem.id, ...docItem.data() };
+        const productCard = document.createElement("div");
+        productCard.className = "card";
+        productCard.innerHTML = `
+          <h3>${product.name}</h3>
+          <p>R$ ${Number(product.price).toFixed(2)}</p>
+          <p>Tamanhos: ${product.sizes.join(", ")}</p>
+          <img src="${product.image}" alt="${product.name}" style="width:100px; border-radius:10px;">
+        `;
+        productListDiv.appendChild(productCard);
+      });
+    } catch (error) {
+      console.error("Erro ao carregar produtos:", error);
+      productListDiv.innerHTML = "<p>Não foi possível carregar os produtos.</p>";
+    }
+  }
+
+  // FUNÇÃO PARA ADICIONAR PRODUTOS
+  addProductForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("productName").value.trim();
+    const price = parseFloat(document.getElementById("productPrice").value);
+    const image = document.getElementById("productImage").value.trim();
+    const sizes = document.getElementById("productSizes").value.split(",").map(s => s.trim());
+
+    if (!name || !price || !image || sizes.length === 0) {
+      alert("Preencha todos os campos corretamente!");
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "products"), {
+        name,
+        price,
+        image,
+        sizes
+      });
+      alert("Produto adicionado com sucesso!");
+      addProductForm.reset();
+      loadProducts();
+    } catch (error) {
+      console.error("Erro ao adicionar produto:", error);
+      alert("Erro ao adicionar produto. Veja o console.");
+    }
+  });
+
+  // LOGOUT
+  btnLogout.addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = "login.html";
+  });
+
+  // GARANTE LOGIN ADMIN
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    // Checa se o usuário é admin no Firestore
+    try {
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      const userData = userDoc.data();
+      if (!userData?.admin) {
+        alert("Você não tem acesso a esta página.");
+        window.location.href = "index.html";
+      }
+    } catch (error) {
+      console.error("Erro ao verificar admin:", error);
       window.location.href = "index.html";
     }
 
-    // Carregar produtos
+    // Se admin, carrega produtos
     loadProducts();
-  } else {
-    window.location.href = "login.html";
-  }
-});
-
-// ==========================
-// LOGOUT / VOLTAR
-// ==========================
-btnLogout.addEventListener("click", async () => {
-  await signOut(auth);
-  window.location.href = "login.html";
-});
-
-btnBack.addEventListener("click", () => {
-  window.location.href = "index.html";
-});
-
-// ==========================
-// ADICIONAR PRODUTO
-// ==========================
-addProductForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const name = document.getElementById("productName").value.trim();
-  const price = parseFloat(document.getElementById("productPrice").value);
-  const image = document.getElementById("productImage").value.trim();
-  const sizes = document.getElementById("productSizes").value.split(",").map(s => s.trim());
-
-  try {
-    await addDoc(collection(db, "products"), {
-      name,
-      price,
-      image,
-      sizes
-    });
-    alert("Produto adicionado com sucesso!");
-    addProductForm.reset();
-    loadProducts();
-  } catch (err) {
-    console.error("Erro ao adicionar produto:", err);
-    alert("Erro ao adicionar produto: " + err.message);
-  }
-});
-
-// ==========================
-// CARREGAR PRODUTOS
-// ==========================
-async function loadProducts() {
-  productListDiv.innerHTML = "";
-  const snapshot = await getDocs(collection(db, "products"));
-  snapshot.forEach(docSnap => {
-    const product = docSnap.data();
-    const div = document.createElement("div");
-    div.className = "product-card";
-    div.innerHTML = `
-      <h4>${product.name}</h4>
-      <p>R$ ${product.price.toFixed(2)}</p>
-      <img src="${product.image}" alt="${product.name}" style="max-width:100px;">
-      <p>Tamanhos: ${product.sizes.join(", ")}</p>
-      <button data-id="${docSnap.id}" class="delete-btn">Excluir</button>
-    `;
-    productListDiv.appendChild(div);
-
-    // Deletar produto
-    div.querySelector(".delete-btn").addEventListener("click", async () => {
-      await deleteDoc(doc(db, "products", docSnap.id));
-      loadProducts();
-    });
   });
-}
+
+});
