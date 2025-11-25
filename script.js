@@ -1,11 +1,9 @@
 // ==========================
 // IMPORTS E INICIALIZAÇÃO
 // ==========================
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const auth = getAuth();
-const db = getFirestore();
+import { auth, db } from "./firebase-config.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
 // ==========================
 // ELEMENTOS DO DOM
@@ -16,6 +14,11 @@ const goToAdminBtn = document.getElementById('goToAdminBtn');
 const openSettingsBtn = document.getElementById('open-settings-btn');
 const userSettingsSection = document.getElementById('user-settings-section');
 const backToCatalogBtn = document.getElementById('back-to-catalog');
+
+const sizeModal = document.getElementById('sizeModal');
+const sizeSelect = document.getElementById('sizeSelect');
+const confirmSizeBtn = document.getElementById('confirmSizeBtn');
+const cancelSizeBtn = document.getElementById('cancelSizeBtn');
 
 // ==========================
 // CARRINHO DE COMPRAS
@@ -55,17 +58,11 @@ async function loadProducts() {
 // ==========================
 // MODAL DE TAMANHO
 // ==========================
-const sizeModal = document.getElementById('sizeModal');
-const sizeSelect = document.getElementById('sizeSelect');
-const confirmSizeBtn = document.getElementById('confirmSizeBtn');
-const cancelSizeBtn = document.getElementById('cancelSizeBtn');
-
 let selectedProduct = null;
 
 window.openSizeModal = function(productId) {
   selectedProduct = null;
   sizeSelect.innerHTML = '';
-  // Busca produto pelo ID
   getDocs(collection(db, "products")).then(snapshot => {
     snapshot.forEach(doc => {
       if (doc.id === productId) selectedProduct = { id: doc.id, ...doc.data() };
@@ -93,37 +90,44 @@ cancelSizeBtn.onclick = () => {
 };
 
 // ==========================
-// LOGIN / LOGOUT
+// LOGIN / LOGOUT E BOTÕES DE USUÁRIO
 // ==========================
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, async (user) => {
   if (user) {
-    logoutBtn.style.display = 'inline-block';
-    openSettingsBtn.style.display = 'inline-block';
-    // Verifica se é admin (exemplo: email admin)
-    goToAdminBtn.style.display = user.email === 'admin@loja.com' ? 'inline-block' : 'none';
+    logoutBtn.style.display = "inline-block";
+    openSettingsBtn.style.display = "inline-block";
+
+    // Pegar dados do usuário no Firestore
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+    const userData = userDoc.exists() ? userDoc.data() : null;
+
+    // Se for admin
+    goToAdminBtn.style.display = userData?.admin ? "inline-block" : "none";
+
   } else {
-    logoutBtn.style.display = 'none';
-    openSettingsBtn.style.display = 'none';
-    goToAdminBtn.style.display = 'none';
+    logoutBtn.style.display = "none";
+    openSettingsBtn.style.display = "none";
+    goToAdminBtn.style.display = "none";
   }
 });
 
-logoutBtn.addEventListener('click', () => {
-  signOut(auth).then(() => {
-    alert('Você saiu da conta.');
-    window.location.reload();
-  });
+logoutBtn.addEventListener("click", async () => {
+  await signOut(auth);
+  window.location.reload();
+});
+
+openSettingsBtn.addEventListener("click", () => {
+  window.location.href = "dashboard.html";
+});
+
+goToAdminBtn.addEventListener("click", () => {
+  window.location.href = "admin.html";
 });
 
 // ==========================
 // CONFIGURAÇÕES DO USUÁRIO
 // ==========================
-openSettingsBtn.addEventListener('click', () => {
-  userSettingsSection.style.display = 'block';
-  catalogDiv.parentElement.style.display = 'none';
-});
-
-backToCatalogBtn.addEventListener('click', () => {
+backToCatalogBtn.addEventListener("click", () => {
   userSettingsSection.style.display = 'none';
   catalogDiv.parentElement.style.display = 'block';
 });
@@ -132,50 +136,3 @@ backToCatalogBtn.addEventListener('click', () => {
 // INICIALIZAÇÃO
 // ==========================
 loadProducts();
-
-
-
-//teste
-
-import { auth, db } from "./firebase-config.js";
-import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
-
-
-// Função para atualizar visibilidade de botões conforme login
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    logoutBtn.style.display = "inline-block";
-    openSettingsBtn.style.display = "inline-block";
-
-    // Pegar dados do usuário
-    const userDoc = await getDoc(doc(db, "users", user.uid));
-    const userData = userDoc.data();
-
-    // Se for admin
-    if (userData?.admin) {
-      goToAdminBtn.style.display = "inline-block";
-    }
-
-  } else {
-    logoutBtn.style.display = "none";
-    goToAdminBtn.style.display = "none";
-    openSettingsBtn.style.display = "none";
-  }
-});
-
-// Logout
-logoutBtn.addEventListener("click", async () => {
-  await signOut(auth);
-  window.location.href = "login.html";
-});
-
-// Abrir dashboard
-openSettingsBtn.addEventListener("click", () => {
-  window.location.href = "dashboard.html"; // ou área de usuário
-});
-
-// Abrir painel admin (se admin)
-goToAdminBtn.addEventListener("click", () => {
-  window.location.href = "admin.html"; // se existir
-});
