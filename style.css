@@ -252,11 +252,18 @@ body {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
 }
 
+/* ===== Ajuste das imagens ===== */
 .product img {
-    height: 200px;
     width: 100%;
-    object-fit: cover;
+    max-height: 180px; /* altura máxima ajustada */
+    object-fit: cover; /* mantém proporção */
+    border-radius: 12px;
+    transition: transform 0.3s ease;
     cursor: pointer;
+}
+
+.product img:hover {
+    transform: scale(1.05);
 }
 
 .product h3 {
@@ -346,17 +353,14 @@ body {
     .catalog { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
 }
 
-
-
-
-
+/* Logo ajustes */
 .site-header .logo {
   display: flex;
   align-items: center;
 }
 
 .site-header .logo img.logo-img {
-  height: 90px; /* Ajuste conforme necessário */
+  height: 90px;
   margin-right: 5px;
 }
 
@@ -368,12 +372,13 @@ body {
 .site-header .logo .logo-text .tagline {
   font-size: 0.8rem;
   margin: 0;
-  color: #ffffff; /* ou outra cor que combine com a barra */
+  color: #ffffff;
 }
-/* ================= Fly to Cart Animation ================= */
+
+/* Fly to Cart Animation */
 .fly-image {
   position: fixed;
-  width: 100px; /* tamanho inicial da imagem */
+  width: 100px;
   height: 100px;
   object-fit: cover;
   border-radius: 10px;
