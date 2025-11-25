@@ -38,7 +38,7 @@
       <div class="header-actions">
         <button id="logoutBtn" style="display:none;" aria-label="Sair da conta">Sair</button>
         <button id="goToAdminBtn" style="display:none;" aria-label="Painel administrativo">Painel Admin</button>
-        <button id="open-settings-btn" style="display:none;" aria-label="Configurações da conta">👤</button>
+        <button id="open-settings-btn" style="display:none;" aria-label="Área do Usuário">👤</button>
         <input type="search" placeholder="Busque um produto ou marca">
       </div>
     </div>
@@ -52,52 +52,17 @@
     </div>
   </section>
 
-  <section id="dashboard-section" aria-labelledby="catalog-heading">
+  <section id="catalog-section" aria-labelledby="catalog-heading">
     <h2 id="catalog-heading" class="section-title">Nossos Tênis</h2>
     <div id="catalog" class="catalog"></div>
   </section>
-
-  <section id="user-settings-section" class="auth-section" style="display:none;">
-    <h2>Configurações da Conta</h2>
-    <form id="user-settings-form">
-      <div class="form-group">
-        <label for="userName">Nome</label>
-        <input type="text" id="userName" />
-      </div>
-      <div class="form-group">
-        <label for="userPassword">Nova senha</label>
-        <input type="password" id="userPassword" />
-      </div>
-      <button type="submit" class="btn-primary">Salvar Alterações</button>
-      <button type="button" id="back-to-catalog" class="btn-secondary">Voltar</button>
-    </form>
-  </section>
-
-  <div id="sizeModal" class="size-modal" style="display:none;" role="dialog" aria-labelledby="sizeModalTitle" aria-modal="true">
-    <div class="size-modal-content">
-      <h3 id="sizeModalTitle">Selecione o tamanho</h3>
-      <select id="sizeSelect"></select>
-      <div class="size-modal-actions">
-        <button id="confirmSizeBtn" class="btn-primary">Adicionar ao Carrinho</button>
-        <button id="cancelSizeBtn" class="btn-secondary">Cancelar</button>
-      </div>
-    </div>
-  </div>
 
   <footer class="site-footer">
     <p>&copy; 2025 Ande firme com qualidade</p>
   </footer>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
-
-  <!-- Configuração Firebase -->
-  <script src="firebase-config.js"></script>
-
-  <!-- Script principal -->
-  <script src="script.js"></script>
+  <!-- Script do index.js -->
+  <script type="module" src="./script.js"></script>
 
 </body>
 </html>
