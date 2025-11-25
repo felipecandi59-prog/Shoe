@@ -14,6 +14,7 @@
       <h1>Ande firme com qualidade</h1>
     </div>
     <div class="header-actions">
+      <button id="btnBack" class="btn-secondary">Voltar à Loja</button>
       <button id="btnLogout" class="btn-secondary">Sair</button>
     </div>
   </div>
@@ -23,15 +24,36 @@
   <section id="dashboard-section">
     <h2>Bem-vindo, <span id="userName"></span>!</h2>
     <p>Você está logado na sua conta.</p>
+
+    <!-- Configurações do usuário -->
+    <section id="user-settings">
+      <h3>Configurações da Conta</h3>
+      <form id="user-settings-form">
+        <div class="form-group">
+          <label for="newName">Nome</label>
+          <input type="text" id="newName" placeholder="Seu nome">
+        </div>
+        <div class="form-group">
+          <label for="newPassword">Nova senha</label>
+          <input type="password" id="newPassword" placeholder="Nova senha">
+        </div>
+        <button type="submit" class="btn-primary">Salvar Alterações</button>
+      </form>
+    </section>
+
+    <!-- Histórico de compras -->
+    <section id="purchase-history">
+      <h3>Histórico de Compras</h3>
+      <div id="orders-list">
+        <p>Ainda não há compras.</p>
+      </div>
+    </section>
   </section>
 </main>
 
 <footer class="site-footer">
   <p>&copy; 2025 Ande firme com qualidade</p>
 </footer>
-
-<!-- Firebase SDKs -->
-
 
 <!-- Script Dashboard modular -->
 <script type="module" src="./dashboard.js"></script>
