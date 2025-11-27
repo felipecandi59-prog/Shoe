@@ -255,7 +255,7 @@ body {
 /* ===== Ajuste das imagens ===== */
 .product img {
     width: 20%;
-    max-height: 100px; /* altura máxima ajustada */
+    max-height: 10px; /* altura máxima ajustada */
     object-fit: cover; /* mantém proporção */
     border-radius: 12px;
     transition: transform 0.3s ease;
