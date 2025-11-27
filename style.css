@@ -264,6 +264,11 @@ body {
 
 .product img:hover {
     transform: scale(1.05);
+    
+.product img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #f200ff, 0 0 30px #b346ff;
+}
 }
 
 .product h3 {
