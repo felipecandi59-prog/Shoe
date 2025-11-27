@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <h3>${product.name}</h3>
           <p>R$ ${Number(product.price).toFixed(2)}</p>
           <p>Tamanhos: ${product.sizes.join(", ")}</p>
-          <img src="${product.image}" alt="${product.name}" style="width:100px; border-radius:10px;">
+          <img src="${product.image}" alt="${product.name}" style="width:10px; border-radius:10px;">
         `;
         productListDiv.appendChild(productCard);
       });
@@ -45,6 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const price = parseFloat(document.getElementById("productPrice").value);
     const image = document.getElementById("productImage").value.trim();
     const sizes = document.getElementById("productSizes").value.split(",").map(s => s.trim());
+ 
+    const width = parseInt(document.getElementById("productWidth").value) || 100; // valor padrão
+    const height = parseInt(document.getElementById("productHeight").value) || 100;
+
 
     if (!name || !price || !image || sizes.length === 0) {
       alert("Preencha todos os campos corretamente!");
@@ -56,7 +60,9 @@ document.addEventListener("DOMContentLoaded", () => {
         name,
         price,
         image,
-        sizes
+        sizes,
+        width,
+        heigh
       });
       alert("Produto adicionado com sucesso!");
       addProductForm.reset();

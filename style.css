@@ -159,9 +159,9 @@ body {
     color: white;
     margin-bottom: 40px;
 }
- 
+
 .hero-content {
-    max-width: 80px; 
+    max-width: 800px;
     padding: 0 20px;
 }
 
@@ -254,12 +254,13 @@ body {
 
 /* ===== Ajuste das imagens ===== */
 .product img {
-    width: 40px !important;
-    height: 40px !important;
-    object-fit: cover !important;
-    border-radius: 8px !important;
+    width: 20%;
+    max-height: 10px; /* altura máxima ajustada */
+    object-fit: cover; /* mantém proporção */
+    border-radius: 2px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
 }
-
 
 .product img:hover {
     transform: scale(1.05);
