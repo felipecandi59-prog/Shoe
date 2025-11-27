@@ -1,6 +1,6 @@
 // admin.js
 import { auth, db } from "./firebase-config.js";
-import { collection, addDoc, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+import { collection, addDoc, getDocs, doc, getDoc, deleteDoc} from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -28,9 +28,25 @@ document.addEventListener("DOMContentLoaded", () => {
           <p>R$ ${Number(product.price).toFixed(2)}</p>
           <p>Tamanhos: ${product.sizes.join(", ")}</p>
           <img src="${product.image}" alt="${product.name}" style="width:${product.width || 100}px; height:${product.height || 100}px; border-radius:10px;">
-
+          <button class="btn-secondary delete-btn">Excluir</button>
         `;
         productListDiv.appendChild(productCard);
+
+        
+  // AQUI: adiciona o evento para o botão de excluir
+  const deleteBtn = productCard.querySelector(".delete-btn");
+  deleteBtn.addEventListener("click", async () => {
+    if (confirm(`Deseja realmente apagar o produto "${product.name}"?`)) {
+      try {
+        await deleteDoc(doc(db, "products", product.id));
+        alert("Produto removido com sucesso!");
+        loadProducts(); // Recarrega a lista após deletar
+      } catch (error) {
+        console.error("Erro ao apagar produto:", error);
+        alert("Erro ao apagar produto. Veja o console.");
+      }
+    }
+  });
       });
     } catch (error) {
       console.error("Erro ao carregar produtos:", error);
