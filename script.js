@@ -49,12 +49,15 @@ window.addEventListener('DOMContentLoaded', () => {
         const product = { id: docSnap.id, ...docSnap.data() };
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
-        productCard.innerHTML = `
-          <img src="${product.image}" alt="${product.name}">
-          <h3>${product.name}</h3>
-          <p>R$ ${product.price.toFixed(2)}</p>
-          <button class="btn-primary" onclick="openSizeModal('${product.id}')">Comprar</button>
-        `;
+      productCard.innerHTML = `
+  <img src="${product.image}" 
+       alt="${product.name}" 
+       style="width:${product.width || 200}px; height:${product.height || 150}px; object-fit:cover; border-radius:12px;">
+  <h3>${product.name}</h3>
+  <p>R$ ${product.price.toFixed(2)}</p>
+  <button class="btn-primary" onclick="openSizeModal('${product.id}')">Comprar</button>
+`;
+
         catalogDiv.appendChild(productCard);
       });
     } catch (error) {
