@@ -24,27 +24,6 @@ let cart = [];
 // ==========================
 // FUNÇÃO DE ANIMAÇÃO FLY TO CART
 // ==========================
-function flyToCart(productImg, cartSelector) {
-  const flyImg = productImg.cloneNode(true);
-  flyImg.classList.add('fly-image');
-  document.body.appendChild(flyImg);
-
-  const imgRect = productImg.getBoundingClientRect();
-  flyImg.style.left = imgRect.left + 'px';
-  flyImg.style.top = imgRect.top + 'px';
-
-  const cart = document.querySelector(cartSelector);
-  const cartRect = cart.getBoundingClientRect();
-
-  requestAnimationFrame(() => {
-    flyImg.style.transform = `translateX(${cartRect.left - imgRect.left}px) translateY(${cartRect.top - imgRect.top}px) scale(0.2)`;
-    flyImg.style.opacity = '0';
-  });
-
-  flyImg.addEventListener('transitionend', () => {
-    flyImg.remove();
-  });
-}
 
 // ==========================
 // FUNÇÃO ADD TO CART
