@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
         image,
         sizes,
         width,
-        heigh
+        height
       });
       alert("Produto adicionado com sucesso!");
       addProductForm.reset();
