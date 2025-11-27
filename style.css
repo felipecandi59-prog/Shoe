@@ -257,7 +257,7 @@ body {
     width: 20%;
     max-height: 10px; /* altura máxima ajustada */
     object-fit: cover; /* mantém proporção */
-    border-radius: 12px;
+    border-radius: 2px;
     transition: transform 0.3s ease;
     cursor: pointer;
 }
