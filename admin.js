@@ -27,7 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <h3>${product.name}</h3>
           <p>R$ ${Number(product.price).toFixed(2)}</p>
           <p>Tamanhos: ${product.sizes.join(", ")}</p>
-          <img src="${product.image}" alt="${product.name}" style="width:10px; border-radius:10px;">
+          <img src="${product.image}" alt="${product.name}" style="width:${product.width || 100}px; height:${product.height || 100}px; border-radius:10px;">
+
         `;
         productListDiv.appendChild(productCard);
       });
