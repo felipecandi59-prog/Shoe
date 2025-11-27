@@ -254,13 +254,12 @@ body {
 
 /* ===== Ajuste das imagens ===== */
 .product img {
-    width: 20%;
-    max-height: 10px; /* altura máxima ajustada */
-    object-fit: cover; /* mantém proporção */
-    border-radius: 2px;
-    transition: transform 0.3s ease;
-    cursor: pointer;
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: cover !important;
+    border-radius: 8px !important;
 }
+
 
 .product img:hover {
     transform: scale(1.05);
