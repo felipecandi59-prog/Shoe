@@ -1,22 +1,32 @@
-// cadastrar.js
+// cadastro.js
 import { auth, db } from "./firebase-config.js";
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
 import { setDoc, doc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
-const registerForm = document.getElementById("registerForm");
+// Seleciona o formulário pelo ID correto
+const signupForm = document.getElementById("signupForm");
 
-registerForm.addEventListener("submit", async (e) => {
+signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const name = document.getElementById("registerName").value;
-  const email = document.getElementById("registerEmail").value;
-  const password = document.getElementById("registerPassword").value;
+  // Pega valores dos inputs corretos
+  const name = document.getElementById("fullName").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+
+  // Validação simples de senha
+  if (password !== confirmPassword) {
+    alert("As senhas não conferem!");
+    return;
+  }
 
   try {
+    // Cria usuário no Firebase Auth
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Salva dados no Firestore
+    // Salva dados do usuário no Firestore
     await setDoc(doc(db, "users", user.uid), {
       nome: name,
       email: email,
@@ -29,8 +39,10 @@ registerForm.addEventListener("submit", async (e) => {
 
   } catch (error) {
     console.error("Erro no cadastro:", error);
+
     let msg = "Erro ao cadastrar.";
 
+    // Mensagens amigáveis para alguns erros comuns
     if (error.code === "auth/email-already-in-use") msg = "Email já cadastrado.";
     if (error.code === "auth/invalid-email") msg = "Email inválido.";
     if (error.code === "auth/weak-password") msg = "Senha muito fraca.";
