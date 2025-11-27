@@ -159,9 +159,9 @@ body {
     color: white;
     margin-bottom: 40px;
 }
-
+ 
 .hero-content {
-    max-width: 800px;
+    max-width: 80px; 
     padding: 0 20px;
 }
 
