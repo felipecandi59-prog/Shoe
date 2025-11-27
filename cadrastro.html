@@ -1,56 +1,71 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Cadastro de usuários - Ande Firme Loja de Tênis" />
   <title>Cadastro - Ande Firme</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-container">
-    <div class="logo">
-      <h1>Ande firme com qualidade</h1>
+  <canvas id="bgCanvas"></canvas>
+
+  <header class="site-header">
+    <div class="header-container">
+      <div class="logo">
+        <a href="index.html">
+          <img src="T.png" alt="Logo Ande Firme" class="logo-img">
+        </a>
+        <div class="logo-text">
+          <h1>Ande firme com qualidade</h1>
+          <p class="tagline">Tênis</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="logoutBtn" style="display:none;">Sair</button>
+        <button id="goToAdminBtn" style="display:none;">Painel Admin</button>
+        <button id="open-settings-btn" style="display:none;">👤</button>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<main>
-  <section id="register-section" class="auth-section">
-    <h2>Cadastro</h2>
-    <form id="registerForm">
-      <div class="form-group">
-        <label for="registerName">Nome</label>
-        <input type="text" id="registerName" name="name" required>
-      </div>
-      <div class="form-group">
-        <label for="registerEmail">Email</label>
-        <input type="email" id="registerEmail" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="registerPassword">Senha</label>
-        <input type="password" id="registerPassword" name="password" required>
-      </div>
-      <button class="btn-primary" type="submit">Cadastrar</button>
-    </form>
-
-    <div class="switch-auth">
+  <main>
+    <section class="auth-section">
+      <h2>Cadastro de Usuário</h2>
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="fullName">Nome completo</label>
+          <input type="text" id="fullName" placeholder="Digite seu nome" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Digite seu email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input type="password" id="password" placeholder="Digite sua senha" required />
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirme a senha</label>
+          <input type="password" id="confirmPassword" placeholder="Confirme sua senha" required />
+        </div>
+        <button type="submit" class="btn-primary">Cadastrar</button>
+      </form>
+     <div class="switch-auth">
       <p>Já tem conta?</p>
       <button onclick="window.location.href='login.html'" class="link-btn">Entrar</button>
     </div>
   </section>
 </main>
 
-<footer class="site-footer">
-  <p>&copy; 2025 Ande firme com qualidade</p>
-</footer>
 
-<!-- Firebase SDKs -->
+  <footer class="site-footer">
+    <p>&copy; 2025 Ande firme com qualidade</p>
+  </footer>
 
-
-<!-- Script Cadastro modular -->
-<script type="module" src="./cadastro.js"></script>
-
+  <script type="module" src="cadastro.js"></script>
 </body>
 </html>
