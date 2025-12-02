@@ -4,101 +4,105 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Finalizar compra - Ande firme com qualidade" />
-  <title>Finalizar Compra - Ande firme com qualidade</title>
+  <title>Finalizar Compra - Ande firme</title>
+  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="compra.css" />
 </head>
 <body>
 
-  <canvas id="bgCanvas"></canvas>
+<canvas id="bgCanvas"></canvas>
 
-
-  <!-- Cabeçalho -->
-  <header class="site-header">
-    <div class="header-container">
-      <div class="logo">
-        <a href="index.html">
-          <img src="T.png" alt="Logo Ande Firme" class="logo-img">
-        </a>
-        <div class="logo-text">
-          <h1>Ande firme com qualidade</h1>
-          <p class="tagline">Tênis</p>
-        </div>
+<header class="site-header">
+  <div class="header-container">
+    <div class="logo">
+      <a href="index.html"><img src="T.png" alt="Logo Ande Firme" class="logo-img"></a>
+      <div class="logo-text">
+        <h1>Ande firme com qualidade</h1>
+        <p class="tagline">Tênis</p>
       </div>
-
-      <nav class="main-nav">
-        <ul>
-          <li><a href="index.html">Início</a></li>
-          <li><a href="produtos.html">Produtos</a></li>
-          <li><a href="sobre.html">Sobre nós</a></li>
-          <li><a href="login.html">Cadastro</a></li>
-          <li><a href="compra.html" class="active">🛒</a></li>
-        </ul>
-      </nav>
     </div>
-  </header>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="produtos.html">Produtos</a></li>
+        <li><a href="sobre.html">Sobre nós</a></li>
+        <li><a href="login.html">Cadastro</a></li>
+        <li><a href="compra.html" class="active">🛒</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-  <!-- Seção de pagamento -->
-  <section id="payment-section" class="auth-section">
+<section id="payment-section" class="auth-section">
+  <h2>Seu Carrinho</h2>
 
-    
-    <h2>Finalizar Compra</h2>
+  <div id="cartContainer">
+    <p id="emptyMessage">Seu carrinho está vazio!</p>
+    <table id="cartTable" style="display:none;">
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Tamanho</th>
+          <th>Preço</th>
+          <th>Quantidade</th>
+          <th>Total</th>
+          <th>Remover</th>
+        </tr>
+      </thead>
+      <tbody id="cartBody"></tbody>
+    </table>
+    <div class="payment-summary" style="margin-top:20px;">
+      <p>Total: R$ <span id="paymentTotal">0.00</span></p>
+    </div>
+  </div>
 
-    <div class="payment-summary">
-      <p>Cliente: <strong id="customerName"></strong></p>
-      <p>Total: <strong>R$ <span id="paymentTotal"></span></strong></p>
+  <form id="paymentForm">
+    <div class="form-group">
+      <label for="paymentMethod">Método de pagamento</label>
+      <select id="paymentMethod" required>
+        <option value="">Selecione</option>
+        <option value="pix">PIX</option>
+        <option value="card">Cartão de Crédito</option>
+      </select>
     </div>
 
-    <form id="paymentForm">
+    <div id="pixDetails" style="display:none;">
+      <p><strong>PIX:</strong> 62 99275-6442</p>
+      <p>Envie o comprovante para finalizar o pedido.</p>
+    </div>
+
+    <div id="cardDetails" style="display:none;">
       <div class="form-group">
-        <label for="paymentMethod">Método de pagamento</label>
-        <select id="paymentMethod" required>
-          <option value="">Selecione</option>
-          <option value="pix">PIX</option>
-          <option value="card">Cartão de Crédito</option>
-        </select>
+        <label for="cardNumber">Número do Cartão</label>
+        <input type="text" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX" maxlength="19" />
       </div>
-
-      <div id="pixDetails" style="display:none;">
-        <p><strong>PIX:</strong> 62 99275-6442</p>
-        <p>Envie o comprovante para finalizar o pedido.</p>
+      <div class="form-group">
+        <label for="cardExpiry">Validade</label>
+        <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5" />
       </div>
-
-      <div id="cardDetails" style="display:none;">
-        <div class="form-group">
-          <label for="cardNumber">Número do Cartão</label>
-          <input type="text" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX" maxlength="19" />
-        </div>
-        <div class="form-group">
-          <label for="cardExpiry">Validade</label>
-          <input type="text" id="cardExpiry" placeholder="MM/AA" maxlength="5" />
-        </div>
-        <div class="form-group">
-          <label for="cardCVC">CVC</label>
-          <input type="text" id="cardCVC" placeholder="XXX" maxlength="3" />
-        </div>
+      <div class="form-group">
+        <label for="cardCVC">CVC</label>
+        <input type="text" id="cardCVC" placeholder="XXX" maxlength="3" />
       </div>
+    </div>
 
-      <div class="cart-actions">
-        <button id="confirmPaymentBtn" class="btn-primary">Confirmar Pagamento</button>
-        <a href="index.html" class="btn-secondary">Voltar à Loja</a>
-      </div>
+    <div class="cart-actions">
+      <button id="confirmPaymentBtn" class="btn-primary">Confirmar Pagamento</button>
+      <a href="index.html" class="btn-secondary">Voltar à Loja</a>
+    </div>
 
+    <div class="loader" id="loader"></div>
+    <div class="success-check" id="successCheck">
+      <i class="fa-solid fa-circle-check"></i>
+      <p>Pagamento confirmado!</p>
+    </div>
+  </form>
+</section>
 
-      <div class="loader" id="loader"></div>
-<div class="success-check" id="successCheck">
-  <i class="fa-solid fa-circle-check"></i>
-  <p>Pagamento confirmado!</p>
-</div>
-
-    </form>
-  </section>
-
-  <footer class="site-footer">
-    <p>&copy; 2025 Ande firme com qualidade</p>
-  </footer>
+<footer class="site-footer">
+  <p>&copy; 2025 Ande firme com qualidade</p>
+</footer>
 
 <script type="module" src="compra.js"></script>
-
 </body>
 </html>
