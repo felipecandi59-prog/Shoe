@@ -337,3 +337,366 @@ section:hover, .auth-section:hover, .card:hover {
     50% { transform: scale(1.2); box-shadow: 0 0 20px #f200ff, 0 0 40px #b346ff; }
     100% { transform: scale(1); box-shadow: 0 0 10px #f200ff, 0 0 20px #b346ff; }
 }
+
+
+/* ===============================
+   Carrinho - Compra
+==================================*/
+#cartContainer {
+    margin-top: 20px;
+    background-color: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    transition: all 0.4s ease;
+}
+
+#cartContainer:hover {
+    box-shadow: 0 0 20px #f200ff, 0 0 40px #b346ff, 0 0 60px #f200ff;
+}
+
+#cartTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+#cartTable th, #cartTable td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid rgba(242,0,255,0.3);
+    color: #fff;
+}
+
+#cartTable th {
+    background-color: rgba(60,2,44,0.9);
+    color: #f200ff;
+    text-shadow: 0 0 5px #f200ff, 0 0 10px #b346ff;
+}
+
+#cartTable td input[type="number"] {
+    width: 50px;
+    padding: 5px;
+    border-radius: 12px;
+    border: 1px solid #f200ff;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    text-align: center;
+}
+
+.removeBtn {
+    background-color: #7f00ff;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.removeBtn:hover {
+    background-color: #f200ff;
+    box-shadow: 0 0 10px #f200ff, 0 0 20px #b346ff;
+}
+
+.payment-summary {
+    margin-top: 20px;
+    text-align: right;
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 0 0 5px #f200ff, 0 0 10px #b346ff;
+}
+
+#emptyMessage {
+    color: #bbb;
+    font-style: italic;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.cart-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+/* Loader e Success */
+.loader {
+    display: none;
+    border: 5px solid #f200ff;
+    border-top: 5px solid #6a00ff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 10px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.success-check {
+    display: none;
+    text-align: center;
+    color: #00ff99;
+    font-size: 1.5rem;
+    margin-top: 15px;
+    animation: pulseSuccess 1.2s infinite alternate;
+}
+
+@keyframes pulseSuccess {
+    0% { text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99; }
+    50% { text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99; }
+    100% { text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99; }
+}
+
+
+/* ===============================
+   Carrinho - Compra
+==================================*/
+#cartContainer {
+    margin-top: 20px;
+    background-color: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    transition: all 0.4s ease;
+}
+
+#cartContainer:hover {
+    box-shadow: 0 0 20px #f200ff, 0 0 40px #b346ff, 0 0 60px #f200ff;
+}
+
+#cartTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+#cartTable th, #cartTable td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid rgba(242,0,255,0.3);
+    color: #fff;
+}
+
+#cartTable th {
+    background-color: rgba(60,2,44,0.9);
+    color: #f200ff;
+    text-shadow: 0 0 5px #f200ff, 0 0 10px #b346ff;
+}
+
+#cartTable td input[type="number"] {
+    width: 50px;
+    padding: 5px;
+    border-radius: 12px;
+    border: 1px solid #f200ff;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    text-align: center;
+}
+
+.removeBtn {
+    background-color: #7f00ff;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.removeBtn:hover {
+    background-color: #f200ff;
+    box-shadow: 0 0 10px #f200ff, 0 0 20px #b346ff;
+}
+
+.payment-summary {
+    margin-top: 20px;
+    text-align: right;
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 0 0 5px #f200ff, 0 0 10px #b346ff;
+}
+
+#emptyMessage {
+    color: #bbb;
+    font-style: italic;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.cart-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+/* Loader e Success */
+.loader {
+    display: none;
+    border: 5px solid #f200ff;
+    border-top: 5px solid #6a00ff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 10px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.success-check {
+    display: none;
+    text-align: center;
+    color: #00ff99;
+    font-size: 1.5rem;
+    margin-top: 15px;
+    animation: pulseSuccess 1.2s infinite alternate;
+}
+
+@keyframes pulseSuccess {
+    0% { text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99; }
+    50% { text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99; }
+    100% { text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99; }
+}
+
+
+
+
+/* ===============================
+   Carrinho - Compra
+==================================*/
+#cartContainer {
+    margin-top: 20px;
+    background-color: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    transition: all 0.4s ease;
+}
+
+#cartContainer:hover {
+    box-shadow: 0 0 20px #f200ff, 0 0 40px #b346ff, 0 0 60px #f200ff;
+}
+
+#cartTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+#cartTable th, #cartTable td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid rgba(242,0,255,0.3);
+    color: #fff;
+}
+
+#cartTable th {
+    background-color: rgba(60,2,44,0.9);
+    color: #f200ff;
+    text-shadow: 0 0 5px #f200ff, 0 0 10px #b346ff;
+}
+
+#cartTable td input[type="number"] {
+    width: 50px;
+    padding: 5px;
+    border-radius: 12px;
+    border: 1px solid #f200ff;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    text-align: center;
+}
+
+.removeBtn {
+    background-color: #7f00ff;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.removeBtn:hover {
+    background-color: #f200ff;
+    box-shadow: 0 0 10px #f200ff, 0 0 20px #b346ff;
+}
+
+.payment-summary {
+    margin-top: 20px;
+    text-align: right;
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 0 0 5px #f200ff, 0 0 10px #b346ff;
+}
+
+#emptyMessage {
+    color: #bbb;
+    font-style: italic;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.cart-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+/* Loader e Success */
+.loader {
+    display: none;
+    border: 5px solid #f200ff;
+    border-top: 5px solid #6a00ff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 10px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.success-check {
+    display: none;
+    text-align: center;
+    color: #00ff99;
+    font-size: 1.5rem;
+    margin-top: 15px;
+    animation: pulseSuccess 1.2s infinite alternate;
+}
+
+@keyframes pulseSuccess {
+    0% { text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99; }
+    50% { text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99; }
+    100% { text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99; }
+}
+
+/* Responsividade Carrinho */
+@media (max-width: 768px) {
+    #cartTable th, #cartTable td {
+        font-size: 14px;
+        padding: 6px;
+    }
+
+    .cart-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
