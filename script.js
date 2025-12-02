@@ -64,7 +64,8 @@ function flyToCart(imgElement, targetSelector) {
 // ADCIONAR AO CARRINHO
 // ==========================
 function addToCart(product, size, productImg) {
-    cart.push({ ...product, size });
+    cart.push({ ...product, size }); // adiciona no array
+    localStorage.setItem("cart", JSON.stringify(cart)); // salva no localStorage
     alert(`Produto ${product.name} (Tamanho: ${size}) adicionado ao carrinho.`);
 
     if (productImg) flyToCart(productImg, '.cart-btn');
