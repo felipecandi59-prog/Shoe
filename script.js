@@ -12,14 +12,10 @@ const catalogDiv = document.getElementById('catalog');
 const logoutBtn = document.getElementById('logoutBtn');
 const goToAdminBtn = document.getElementById('goToAdminBtn');
 const openSettingsBtn = document.getElementById('open-settings-btn');
-const userSettingsSection = document.getElementById('user-settings-section');
-
 const sizeModal = document.getElementById('sizeModal');
 const sizeSelect = document.getElementById('sizeSelect');
-
 const confirmSizeBtn = document.getElementById('confirmSizeBtn');
 const cancelSizeBtn = document.getElementById('cancelSizeBtn');
-const backToCatalogBtn = document.getElementById('back-to-catalog');
 
 let selectedProduct = null;
 let selectedProductImg = null;
@@ -61,12 +57,12 @@ function flyToCart(imgElement, targetSelector) {
 }
 
 // ==========================
-// ADCIONAR AO CARRINHO
+// ADICIONAR AO CARRINHO
 // ==========================
 function addToCart(product, size, productImg) {
-    cart.push({ ...product, size }); // adiciona no array
-    localStorage.setItem("cart", JSON.stringify(cart)); // salva no localStorage
-    alert(`Produto ${product.name} (Tamanho: ${size}) adicionado ao carrinho.`);
+    cart.push({ ...product, size });
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert(`Produto ${product.name} (Tamanho: ${size}) adicionado ao carrinho!`);
 
     if (productImg) flyToCart(productImg, '.cart-btn');
 }
@@ -86,8 +82,7 @@ async function loadProducts() {
             productCard.className = 'product-card';
 
             productCard.innerHTML = `
-                <img id="${imgId}" src="${product.image}"
-                     alt="${product.name}"
+                <img id="${imgId}" src="${product.image}" alt="${product.name}"
                      style="width:${product.width || 200}px; height:${product.height || 150}px; object-fit:cover; border-radius:12px;">
                 <h3>${product.name}</h3>
                 <p>R$ ${product.price.toFixed(2)}</p>
@@ -103,9 +98,9 @@ async function loadProducts() {
 }
 
 // ==========================
-// MODAL DE TAMANHO — CORRIGIDO
+// MODAL DE TAMANHO
 // ==========================
-window.openSizeModal = async function (productId, imgId) {
+window.openSizeModal = async function(productId, imgId) {
     selectedProductImg = document.getElementById(imgId);
     sizeSelect.innerHTML = '';
 
@@ -113,13 +108,9 @@ window.openSizeModal = async function (productId, imgId) {
         const docRef = doc(db, "products", productId);
         const docSnap = await getDoc(docRef);
 
-        if (!docSnap.exists()) {
-            alert("Produto não encontrado.");
-            return;
-        }
+        if (!docSnap.exists()) return alert("Produto não encontrado.");
 
         selectedProduct = { id: docSnap.id, ...docSnap.data() };
-
         selectedProduct.sizes.forEach(size => {
             const option = document.createElement("option");
             option.value = size;
@@ -138,15 +129,10 @@ window.openSizeModal = async function (productId, imgId) {
 // ==========================
 confirmSizeBtn.onclick = () => {
     const selectedSize = sizeSelect.value;
-    if (selectedProduct && selectedSize) {
-        addToCart(selectedProduct, selectedSize, selectedProductImg);
-    }
+    if (selectedProduct && selectedSize) addToCart(selectedProduct, selectedSize, selectedProductImg);
     sizeModal.style.display = "none";
 };
-
-cancelSizeBtn.onclick = () => {
-    sizeModal.style.display = "none";
-};
+cancelSizeBtn.onclick = () => sizeModal.style.display = "none";
 
 // ==========================
 // LOGIN / LOGOUT
@@ -158,7 +144,6 @@ onAuthStateChanged(auth, async (user) => {
 
         const userDoc = await getDoc(doc(db, "users", user.uid));
         const userData = userDoc.exists() ? userDoc.data() : null;
-
         goToAdminBtn.style.display = userData?.admin ? "inline-block" : "none";
     } else {
         logoutBtn.style.display = "none";
@@ -172,20 +157,10 @@ logoutBtn.addEventListener("click", async () => {
     window.location.reload();
 });
 
-openSettingsBtn.addEventListener("click", () => {
-    window.location.href = "dashboard.html";
-});
-
-goToAdminBtn.addEventListener("click", () => {
-    window.location.href = "admin.html";
-});
-
-backToCatalogBtn?.addEventListener("click", () => {
-    userSettingsSection.style.display = 'none';
-    catalogDiv.parentElement.style.display = 'block';
-});
+openSettingsBtn.addEventListener("click", () => window.location.href = "dashboard.html");
+goToAdminBtn.addEventListener("click", () => window.location.href = "admin.html");
 
 // ==========================
-// INICIALIZAR CATÁLOGO
+// INICIALIZAÇÃO
 // ==========================
 loadProducts();

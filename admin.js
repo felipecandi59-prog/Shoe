@@ -118,6 +118,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Se admin, carrega produtos
     loadProducts();
+
+
+    // ==========================
+// SEÇÃO DE USUÁRIOS
+// ==========================
+const userTableBody = document.getElementById("userTableBody");
+
+// Função para carregar usuários
+async function loadUsers() {
+  userTableBody.innerHTML = '';
+  try {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    querySnapshot.forEach(docItem => {
+      const user = { id: docItem.id, ...docItem.data() };
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${user.nome || "—"}</td>
+        <td>${user.email}</td>
+        <td>${user.admin ? "Sim" : "Não"}</td>
+        <td>${user.active === false ? "Inativo" : "Ativo"}</td>
+        <td>
+          <button class="btn-secondary toggleStatusBtn">${user.active === false ? "Ativar" : "Desativar"}</button>
+        </td>
+      `;
+      userTableBody.appendChild(tr);
+
+      // Evento para ativar/desativar usuário
+      const toggleBtn = tr.querySelector(".toggleStatusBtn");
+      toggleBtn.addEventListener("click", async () => {
+        try {
+          await doc(db, "users", user.id).update({
+            active: user.active === false ? true : false
+          });
+          alert(`Usuário ${user.nome || user.email} atualizado!`);
+          loadUsers();
+        } catch (err) {
+          console.error("Erro ao atualizar status:", err);
+          alert("Erro ao atualizar status do usuário.");
+        }
+      });
+    });
+  } catch (err) {
+    console.error("Erro ao carregar usuários:", err);
+  }
+}
+
+// Chama a função após checar login admin
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+    const userData = userDoc.data();
+    if (userData?.admin) {
+      loadProducts();
+      loadUsers(); // Carrega também usuários
+    }
+  }
+});
+
   });
 
 });
